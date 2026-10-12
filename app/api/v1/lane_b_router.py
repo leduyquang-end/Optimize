@@ -65,9 +65,11 @@ async def scan(request: ScanRequest):
         active_configs=request.active_configs,
     )
     if result.blocked:
+        from src.modules.runner.optimize_service import OptimizeService
+        fixes = OptimizeService.diagnose_blocked(result.blocked_reasons)
         raise HTTPException(
             status_code=409,
-            detail={"gate": "B0 Preconditions", "reasons": result.blocked_reasons},
+            detail={"gate": "B0 Preconditions", "reasons": result.blocked_reasons, "blocked_fixes": fixes},
         )
     return result
 
@@ -86,9 +88,11 @@ async def propose(request: ProposeRequest):
         period=request.period,
     )
     if result.blocked:
+        from src.modules.runner.optimize_service import OptimizeService
+        fixes = OptimizeService.diagnose_blocked(result.blocked_reasons)
         raise HTTPException(
             status_code=409,
-            detail={"gate": "B0 / Mode Preconditions", "reasons": result.blocked_reasons},
+            detail={"gate": "B0 / Mode Preconditions", "reasons": result.blocked_reasons, "blocked_fixes": fixes},
         )
     return result
 

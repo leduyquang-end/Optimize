@@ -3,6 +3,10 @@
   "feature_id": "Chatbot_retrieval_based",
   "source_lane": "A",
   "snapshot_id": "S-0005",
+  "status": "proposed",
+  "status_history": [
+    "excluded by rerank"
+  ],
   "verified_root_cause": {
     "statement": "Bước 'classify' chiếm 4.2% tổng thời gian p50 (10.1/240.1 ms) trên 30 run đo được (fingerprint d71fa4df99e1); tín hiệu: long_tail",
     "evidence_log_lines": [

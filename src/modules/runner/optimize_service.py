@@ -1,5 +1,6 @@
 ﻿import json
 import os
+import re
 from datetime import datetime, timezone
 from typing import Any, Dict, List, Optional, Tuple
 from pydantic import BaseModel, Field
@@ -94,6 +95,10 @@ class OptimizeResult(BaseModel):
     brief_id: Optional[str] = None
     blocked: bool = False
     blocked_reasons: List[str] = Field(default_factory=list)
+    blocked_fixes: List[Dict[str, str]] = Field(
+        default_factory=list,
+        description="Mỗi lý do chặn kèm diagnosis + fix cụ thể",
+    )
     notes: List[str] = Field(default_factory=list)
     errors: List[str] = Field(default_factory=list)
     benchmark: Optional[BenchmarkOutcome] = None
@@ -125,6 +130,111 @@ class OptimizeService:
         self.lane_a = LaneAService(self.file_store)
         self.lane_b = LaneBService(self.file_store)
         self.sources = SourceService(self.file_store)
+
+    # ---------------------------------------------------- blocked diagnosis --
+    _BLOCKED_PATTERNS: List[tuple] = [
+        # (regex, diagnosis, fix)
+        (
+            r"Lane A cần Optimization Brief",
+            "Chưa có Optimization Brief — Lane A bắt buộc phải có Brief qua Cổng 1.",
+            "Điền khối ③ Brief ở UI (hoặc POST /api/v1/lane-a/brief) rồi bấm 'Kiểm tra & lưu Brief'. Brief thiếu/giá trị sai → 422 kèm mã lỗi A1-V* và diễn giải.",
+        ),
+        (
+            r"chưa qua Cổng 1 \(status=",
+            "Brief tồn tại nhưng chưa validated — Cổng 1 chưa qua.",
+            "Mở lại Brief trong dropdown, kiểm tra các mục bị lỗi (A1-V1..V6), sửa rồi lưu lại.",
+        ),
+        (
+            r"Không tìm thấy Brief",
+            "Brief_id truyền lên không tồn tại trong briefs/.",
+            "Chọn Brief có sẵn trong dropdown, hoặc tạo Brief mới rồi lấy brief_id từ response 201.",
+        ),
+        (
+            r"Preflight .*thất bại",
+            "Script đo chạy thử (preflight) thất bại — không có số đo để phân tích.",
+            "Xem khối 'Chẩn đoán' + 'Cách fix' bên dưới lỗi benchmark; thường do web server, import lỗi, thiếu thư viện, hoặc script không in STEP. Chạy lại sau khi sửa.",
+        ),
+        (
+            r"Chưa có số đo của nguồn này",
+            "Nguồn chưa có số đo nào — chưa chạy benchmark và chưa có runs.json.",
+            "Bật 'Chạy benchmark' ở bước ④ (cần script đo in 'STEP <tên> <ms>'), hoặc nạp runs.json vào folder nguồn, hoặc dùng số đo đã lưu trong raw_runs/.",
+        ),
+        (
+            r"0/\d+ run thành công",
+            "Tất cả run đều thất bại — script đo lỗi hoặc không in STEP.",
+            "Xem 'Lỗi benchmark' ở kết quả (stderr thật). Script phải in 'STEP <tên> <ms>' rồi thoát; web server app.run/ sẽ treo. Tăng timeout nếu script import nặng (~25s nạp embeddings).",
+        ),
+        (
+            r"policy is not effective yet",
+            "Chính sách (policy) chưa có hiệu lực — Lane B bị chặn B0-R1.",
+            "Chờ policy.effective_from, hoặc sửa optimization_data/policy/policy.json: effective_from = thời gian hiện tại ISO 8601, approved_by ≠ PENDING.",
+        ),
+        (
+            r"policy expired",
+            "Chính sách đã hết hạn — Lane B phải dừng và báo chủ chương trình.",
+            "Gia hạn: sửa optimization_data/policy/policy.json — expires_at = thời gian tương lai, hoặc tạo policy mới.",
+        ),
+        (
+            r"scan budget exhausted",
+            "Ngân sách quét (scan budget) đã hết — Lane B không được quét thêm.",
+            "Tăng budget_queries_per_run trong policy.json, hoặc chờ chu kỳ tiếp theo.",
+        ),
+        (
+            r"is not in the feature registry",
+            "Feature chưa được đăng ký trong feature registry — Lane B chỉ chạy feature đã đăng ký.",
+            "Thêm feature vào optimization_data/registry/features.json (mode, lane_b_enabled, domain_owner, business_rule_card).",
+        ),
+        (
+            r"has no confirmed domain owner",
+            "Feature chưa có domain owner xác nhận — không thể validate Business Rule Card.",
+            "Điền domain_owner trong features.json (không để PENDING) và xác nhận Business Rule Card.",
+        ),
+        (
+            r"has no Business Rule Card",
+            "Feature chưa có Business Rule Card — điều kiện B0 bắt buộc.",
+            "Tạo Business Rule Card (xem mẫu trong optimization_data/registry/cards/) rồi liên kết vào features.json.",
+        ),
+        (
+            r"Business Rule Card .* not found",
+            "Đường dẫn Business Rule Card trong registry trỏ tới file không tồn tại.",
+            "Kiểm tra đường dẫn trong features.json; copy file card vào optimization_data/registry/cards/.",
+        ),
+        (
+            r"is in observe mode",
+            "Feature đang ở chế độ observe — chỉ quét, không cho phép đề xuất (B2-R1).",
+            "Đổi mode trong features.json từ 'observe' sang 'propose' (cần policy được duyệt trước).",
+        ),
+        (
+            r"Snapshot .* không đọc được",
+            "Snapshot của ứng viên bị hỏng hoặc bị xoá — không đọc được baseline.",
+            "Chạy lại Lane A để tạo snapshot mới, hoặc kiểm tra file trong optimization_data/snapshots/.",
+        ),
+        (
+            r"lane must be",
+            "Tham số lane không hợp lệ — chỉ nhận 'A' hoặc 'B'.",
+            "Sửa request: lane = 'A' (tự nhập) hoặc 'B' (tự phát hiện).",
+        ),
+    ]
+
+    @classmethod
+    def diagnose_blocked(cls, reasons: List[str]) -> List[Dict[str, str]]:
+        """Mỗi lý do chặn → {reason, diagnosis, fix} cụ thể để người dùng tự sửa."""
+        out: List[Dict[str, str]] = []
+        for reason in reasons:
+            diagnosis, fix = "", ""
+            for pattern, diag_tpl, fix_tpl in cls._BLOCKED_PATTERNS:
+                if re.search(pattern, reason, re.IGNORECASE):
+                    diagnosis, fix = diag_tpl, fix_tpl
+                    break
+            if not diagnosis:
+                if "B0-R1" in reason:
+                    diagnosis = "Điều kiện B0-R1 chưa满足 — chính sách/registry/card thiếu hoặc sai."
+                    fix = "Kiểm tra optimization_data/policy/policy.json + registry/features.json + registry/cards/; sửa rồi chạy lại."
+                else:
+                    diagnosis = "Lý do chặn chưa nhận diện được — đọc kỹ reason rồi khắc phục."
+                    fix = "Xem chi tiết lỗi ở trên; nếu là lỗi script đo, chạy tay script trong terminal để quan sát."
+            out.append({"reason": reason, "diagnosis": diagnosis, "fix": fix})
+        return out
 
     # ------------------------------------------------------------------ data --
     def _acquire_runs(
@@ -400,6 +510,7 @@ class OptimizeService:
                     brief_id=brief_id or None,
                     blocked=True,
                     blocked_reasons=brief_blockers,
+                    blocked_fixes=self.diagnose_blocked(brief_blockers),
                 )
 
         feature_id, period, runs, runs_source, benchmark, run_warnings = self._acquire_runs(request)
@@ -436,6 +547,7 @@ class OptimizeService:
                     'hoặc truyền "command"), hay nạp runs.json vào folder, '
                     f"hoặc dùng số đo đã lưu trong {self.base_dir}/raw_runs."
                 )
+            result.blocked_fixes = self.diagnose_blocked(result.blocked_reasons)
             return result
 
         succeeded = [r for r in runs if r.get("status") == "success"]
@@ -446,6 +558,7 @@ class OptimizeService:
                 "Xem 'Lỗi benchmark' ở kết quả; script đo phải in dòng 'STEP <tên> <ms>' rồi thoát "
                 "(web server app.run/ hoặc script không in STEP sẽ không ra bottleneck)."
             )
+            result.blocked_fixes = self.diagnose_blocked(result.blocked_reasons)
             return result
 
         if not feature_id:
@@ -556,6 +669,7 @@ class OptimizeService:
         if blocked:
             result.blocked = True
             result.blocked_reasons.extend(blocked)
+            result.blocked_fixes = self.diagnose_blocked(blocked)
             return
 
         scan_result = self.lane_b.scan(
@@ -568,6 +682,7 @@ class OptimizeService:
         if scan_result.blocked:
             result.blocked = True
             result.blocked_reasons.extend(scan_result.blocked_reasons)
+            result.blocked_fixes = self.diagnose_blocked(scan_result.blocked_reasons)
             return
 
         kept = scan_result.kept
@@ -582,6 +697,7 @@ class OptimizeService:
         if not snapshot:
             result.blocked = True
             result.blocked_reasons.append(f"Snapshot {snapshot_id} của ứng viên không đọc được.")
+            result.blocked_fixes = self.diagnose_blocked(result.blocked_reasons)
             return
         baseline_obj = BaselineReport(**snapshot)
 
@@ -605,6 +721,7 @@ class OptimizeService:
         if propose_result.blocked:
             result.blocked = True
             result.blocked_reasons.extend(propose_result.blocked_reasons)
+            result.blocked_fixes = self.diagnose_blocked(propose_result.blocked_reasons)
             return
         result.solutions = [
             o.model_dump() for o in propose_result.outcomes if o.outcome == "queued"

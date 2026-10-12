@@ -114,6 +114,7 @@ def run_optimization(request: OptimizeRequest):
                 "lane": result.lane,
                 "feature_id": result.feature_id,
                 "reasons": result.blocked_reasons,
+                "blocked_fixes": result.blocked_fixes,
                 "notes": result.notes,
                 "errors": result.errors,
             },

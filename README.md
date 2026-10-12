@@ -139,4 +139,13 @@ e:\Training\optimize
    - **Chốt biến → Solution chính**: domain owner nhập tên 1 biến cấu hình thật (ô dưới thẻ hypothesis, hoặc `POST /api/v1/optimize/hypotheses/{id}/confirm` với `{"variable": "top_k", "reviewer": "mai"}`) → hệ thống kiểm lại Cổng 3, cấp ID `SOL-xxxx`, lưu `solutions/`. Chạy lại Lane A (dùng số đo đã có): solution hiện ở mục "Solution chính thức"; bước đã chốt không sinh hypothesis trùng.
    - **Số đo theo từng nguồn**: `raw_runs` lọc theo `config.source` — file của nguồn khác không bị dùng ngầm (có ghi chú rõ nếu file mới nhất thuộc nguồn khác). 0 run thành công → 409 kèm lý do (không im lặng). Lệnh gợi ý bỏ qua script web server (app.run/uvicorn...) và ưu tiên script có tên `bench*/measure*/perf*`.
 
+7. **⑥ §2 — Triển khai & Xác minh solution** (hiện sau khi Lane A/B có solution): vòng lặp **Rerank → Plan → Implement (tay) → Test → Đo lại → Quyết định → Báo cáo → Rollout**.
+   - **State machine §7**: `proposed → ranked → planned → implementing → testing → measuring → decided → kept/reverted → reported → rolling_out → done`. Chuyển sai trạng thái → **422** kèm danh sách trạng thái được phép. Lịch sử chuyển lưu trong `status_history`.
+   - **Step 01 — Rerank** (`POST /api/v1/section-2/rerank`): xếp hạng lại theo impact rủi ro; loại over-ceiling / hypothesis chưa xác minh / conflict (S01-R1..R4). Solution được xếp → tự chuyển `ranked`.
+   - **Step 02 — Plan** (`POST /api/v1/section-2/plan`): 1 solution → plan 1 phase; nhiều solution → multi-phase (config→prompt→code, `depends_on` chain). Mỗi phase có `done_criteria` (keep ≥25%, revert <10%), tests + guardrail, remeasure window/min_runs, rollback. Lưu `plans/<id>-plan.json`.
+   - **Step 05+06+07 — Verify & Report** (`POST /api/v1/section-2/report`): nhập số đo trước/sau + V-1..V-6 → engine tính improvement %, quyết định KEEP/PARTIAL/REVERT/INVALID; KEEP → auto chuyển `kept`, REVERT → `reverted`. Báo cáo Markdown 3 phần (Xong thật / Đơn giản hóa / Còn thiếu) lưu `reports/R-*.md`.
+   - **Chuyển trạng thái thủ công** (`POST /api/v1/section-2/solutions/{id}/status`): implement/test do người thực hiện, đánh dấu tiến độ qua API.
+   - **Danh sách**: `GET /solutions`, `GET /plans`, `GET /plans/{id}`.
+   - UI ⑥ hiển thị solution cards + status badge, form rerank/plan/transition/report, danh sách plans.
+
 > Cơ chế khai báo `optimization_data/benchmarks/benchmark.json` đã bị xoá (xem `tasks.md` — `RM-BM`); mọi bài test giờ là một **nguồn (source)** tạo lúc chạy.

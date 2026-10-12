@@ -252,6 +252,75 @@
       <h2>Kết quả</h2>
       <div id="resultBody"></div>
     </section>
+
+    <!-- ⑥ §2 — Sau khi có solution -->
+    <section id="step-section2" class="card" hidden>
+      <h2>⑥ §2 — Triển khai &amp; Xác minh solution</h2>
+      <p class="intro">
+        Sau khi có solution (Lane A/B), chạy vòng lặp §2:
+        <strong>Rerank → Plan → Implement (tay) → Test → Đo lại → Quyết định → Báo cáo → Rollout</strong>.
+        Bước Implement/Test do người thực hiện; hệ thống hỗ trợ rerank, plan, verify và báo cáo.
+      </p>
+
+      <div id="section2Solutions"></div>
+
+      <div class="brief-block" id="section2RerankBlock">
+        <h3>Step 01 — Rerank solutions</h3>
+        <p class="field-hint">Xếp hạng lại solutions theo impact rủi ro, loại over-ceiling / hypothesis chưa xác minh / conflict.</p>
+        <button id="btnRerank" class="primary">Rerank</button>
+        <div id="rerankResult" class="note"></div>
+      </div>
+
+      <div class="brief-block" id="section2PlanBlock">
+        <h3>Step 02 — Tạo Plan</h3>
+        <p class="field-hint">Chọn solution (đã ranked) để tạo plan 1 phase / multi-phase. Mỗi phase = 1 biến, có done_criteria, tests, remeasure, rollback.</p>
+        <label for="planSolutionIds">Solution IDs (phân cách dấu phẩy)</label>
+        <input id="planSolutionIds" type="text" placeholder="SOL-0001,SOL-0002" />
+        <label for="planOwner">Owner</label>
+        <input id="planOwner" type="text" value="AI Flow Engineer" />
+        <button id="btnCreatePlan" class="primary">Tạo Plan</button>
+        <div id="planResult" class="note"></div>
+      </div>
+
+      <div class="brief-block" id="section2StatusBlock">
+        <h3>Chuyển trạng thái solution (State machine §7)</h3>
+        <p class="field-hint">proposed → ranked → planned → implementing → testing → measuring → decided → kept/reverted → reported → rolling_out → done</p>
+        <label for="statusSolutionId">Solution ID</label>
+        <input id="statusSolutionId" type="text" placeholder="SOL-0001" />
+        <label for="statusTarget">Trạng thái đích</label>
+        <select id="statusTarget"></select>
+        <button id="btnTransition" class="primary">Chuyển trạng thái</button>
+        <div id="statusResult" class="note"></div>
+      </div>
+
+      <div class="brief-block" id="section2ReportBlock">
+        <h3>Step 05+06+07 — Verify &amp; Report</h3>
+        <p class="field-hint">Nhập số đo trước/sau + validity checks → engine tính improvement %, quyết định KEEP/PARTIAL/REVERT/INVALID, sinh báo cáo Markdown.</p>
+        <label for="reportSolutionId">Solution ID</label>
+        <input id="reportSolutionId" type="text" placeholder="SOL-0001" />
+        <label for="reportSnapBefore">Snapshot trước</label>
+        <input id="reportSnapBefore" type="text" placeholder="S-0001" />
+        <label for="reportSnapAfter">Snapshot sau</label>
+        <input id="reportSnapAfter" type="text" placeholder="S-0002" />
+        <label for="reportBaselineP50">Baseline p50 (ms)</label>
+        <input id="reportBaselineP50" type="number" step="0.1" placeholder="900" />
+        <label for="reportRetestP50">Retest p50 (ms)</label>
+        <input id="reportRetestP50" type="number" step="0.1" placeholder="600" />
+        <label for="reportGuardrail">Guardrail breached?</label>
+        <select id="reportGuardrail">
+          <option value="false">Không</option>
+          <option value="true">Có</option>
+        </select>
+        <button id="btnReport" class="primary">Verify &amp; Report</button>
+        <div id="reportResult" class="note"></div>
+      </div>
+
+      <div class="brief-block" id="section2PlansBlock">
+        <h3>Danh sách Plans</h3>
+        <button id="btnLoadPlans">Tải Plans</button>
+        <div id="plansList"></div>
+      </div>
+    </section>
   </main>
 
   <script src="app.js"></script>

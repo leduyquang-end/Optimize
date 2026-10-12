@@ -1,6 +1,44 @@
+from enum import Enum
 from typing import List, Optional
 from pydantic import BaseModel, Field
 from src.core.schemas.brief import RiskTier
+
+
+class SolutionStatus(str, Enum):
+    """State machine §7 (03_SHARED_AND_SECTION_2_DESIGN.md)."""
+    PROPOSED = "proposed"
+    RANKED = "ranked"
+    PLANNED = "planned"
+    IMPLEMENTING = "implementing"
+    TESTING = "testing"
+    MEASURING = "measuring"
+    DECIDED = "decided"
+    KEPT = "kept"
+    REVERTED = "reverted"
+    REPORTED = "reported"
+    ROLLING_OUT = "rolling_out"
+    DONE = "done"
+
+
+# transitions[from] = allowed next states
+SOLUTION_TRANSITIONS: dict[str, list[str]] = {
+    "proposed": ["ranked"],
+    "ranked": ["planned", "proposed"],
+    "planned": ["implementing", "ranked"],
+    "implementing": ["testing", "planned"],
+    "testing": ["measuring", "implementing"],
+    "measuring": ["decided", "testing"],
+    "decided": ["kept", "reverted", "measuring"],
+    "kept": ["reported"],
+    "reverted": ["planned"],
+    "reported": ["rolling_out"],
+    "rolling_out": ["done", "reverted"],
+    "done": [],
+}
+
+
+def can_transition(current: str, target: str) -> bool:
+    return target in SOLUTION_TRANSITIONS.get(current, [])
 
 class ChangeDescription(BaseModel):
     description: str
@@ -37,6 +75,8 @@ class SolutionProposal(BaseModel):
     feature_id: str
     source_lane: str = Field(default="A", description="A or B")
     snapshot_id: str = "S-0012"
+    status: SolutionStatus = Field(default=SolutionStatus.PROPOSED, description="§7 state machine")
+    status_history: List[str] = Field(default_factory=list, description="audit trail: [from->to, ...]")
     verified_root_cause: VerifiedRootCause
     proposed_change: str
     change: ChangeDescription = Field(default_factory=lambda: ChangeDescription(description="STEP3_SUBFLOW_MAX_STEPS 6 -> 3"))

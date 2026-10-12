@@ -508,10 +508,16 @@ function renderBlocked(detail) {
   const reasons = (detail.reasons || []).map((r) => `<li>${esc(r)}</li>`).join("");
   const notes = (detail.notes || []).map((n) => `<p class="note">${esc(n)}</p>`).join("");
   const errors = (detail.errors || []).map((n) => `<p class="reason">${esc(n)}</p>`).join("");
+  const fixes = (detail.blocked_fixes || []).map((f) => `
+    <div class="preflight-diag">
+      <p><strong>Chẩn đoán:</strong> ${esc(f.diagnosis)}</p>
+      <p><strong>Cách fix:</strong> ${esc(f.fix)}</p>
+    </div>`).join("");
   $("resultBody").innerHTML = `
     <p><span class="badge red">Bị chặn</span> Lane ${esc(detail.lane)} — feature
       <code>${esc(detail.feature_id)}</code></p>
     <div class="blocked"><ul>${reasons}</ul>${notes}${errors}</div>
+    ${fixes}
     <p class="hint">Hệ thống không tự bỏ qua điều kiện; khắc phục lý do rồi chạy lại.</p>
   `;
 }
@@ -700,6 +706,10 @@ function renderResult(data) {
     ${errors}${notes}
   `;
   wireConfirmButtons();
+  // hiện section §2 nếu có solution
+  if ((data.solutions && data.solutions.length) || (data.hypotheses && data.hypotheses.length)) {
+    loadSection2();
+  }
 }
 
 // ---------------------------------------------------------------- wiring ---
@@ -708,6 +718,130 @@ function pickLaneHint() {
   status.hidden = false;
   status.innerHTML = '<span class="badge amber">Hãy chọn Lane A hoặc Lane B ở bước ② trước.</span>';
   $("step-pick").scrollIntoView({ behavior: "smooth" });
+}
+
+// ------------------------------------------------------------- §2 helpers ---
+const S2_STATUSES = ["proposed","ranked","planned","implementing","testing","measuring","decided","kept","reverted","reported","rolling_out","done"];
+
+function statusBadge(s) {
+  const colors = { proposed: "amber", ranked: "blue", planned: "blue", implementing: "amber", testing: "amber", measuring: "amber", decided: "blue", kept: "green", reverted: "red", reported: "green", rolling_out: "blue", done: "green" };
+  return `<span class="badge ${colors[s] || "amber"}">${esc(s)}</span>`;
+}
+
+function renderSection2Solutions(solutions) {
+  const el = $("section2Solutions");
+  if (!solutions || !solutions.length) { el.innerHTML = "<p class='note'>Chưa có solution nào.</p>"; return; }
+  el.innerHTML = "<h3>Solutions (" + solutions.length + ")</h3>" + solutions.map(s => `
+    <div class="hypo" style="margin:8px 0;">
+      <p><strong>${esc(s.solution_id)}</strong> ${statusBadge(s.status)} · lane ${esc(s.source_lane)} · risk ${esc(s.risk_tier)}</p>
+      <p class="note">${esc(s.proposed_change || "")}</p>
+      <p class="note">Impact: ${esc(s.expected_impact_range || "?")} · Effort: ${esc(s.effort_estimate || "?")} · Confidence: ${s.confidence_score}</p>
+      ${s.status_history && s.status_history.length ? `<details><summary>Lịch sử</summary><pre>${esc(s.status_history.join("\n"))}</pre></details>` : ""}
+    </div>`).join("");
+  // fill datalist for status select
+  const sel = $("statusTarget");
+  sel.innerHTML = S2_STATUSES.map(s => `<option value="${s}">${s}</option>`).join("");
+}
+
+async function loadSection2() {
+  try {
+    const res = await fetch("/api/v1/section-2/solutions");
+    if (res.ok) {
+      const d = await res.json();
+      renderSection2Solutions(d.solutions);
+      $("step-section2").hidden = false;
+    }
+  } catch (_) {}
+}
+
+async function doRerank() {
+  const out = $("rerankResult");
+  out.textContent = "Đang rerank...";
+  try {
+    const res = await fetch("/api/v1/section-2/rerank", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({}) });
+    const d = await res.json();
+    if (!res.ok) { out.textContent = "Lỗi: " + JSON.stringify(d); return; }
+    out.innerHTML = `<p>Ranked: ${(d.ranked || []).map(s => esc(s.solution_id)).join(", ") || "không có"}</p>` +
+      `<p>Excluded: ${(d.excluded || []).map(e => esc(e.id) + " (" + esc(e.reason) + ")").join("; ") || "không có"}</p>`;
+    loadSection2();
+  } catch (e) { out.textContent = "Lỗi: " + e; }
+}
+
+async function doCreatePlan() {
+  const out = $("planResult");
+  const ids = $("planSolutionIds").value.split(",").map(s => s.trim()).filter(Boolean);
+  if (!ids.length) { out.textContent = "Nhập ít nhất 1 solution ID."; return; }
+  out.textContent = "Đang tạo plan...";
+  try {
+    const res = await fetch("/api/v1/section-2/plan", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ solution_ids: ids, owner: $("planOwner").value || "AI Flow Engineer" }) });
+    const d = await res.json();
+    if (!res.ok) { out.textContent = "Lỗi: " + JSON.stringify(d); return; }
+    out.innerHTML = `<p>Plan <code>${esc(d.solution_id)}</code> · ${d.phases.length} phase(s) · revision ${d.revision}</p>` +
+      d.phases.map(p => `<p class="note">${esc(p.phase_id)}: ${esc(p.change_variable)} — ${esc(p.done_criteria)}</p>`).join("");
+    loadSection2();
+  } catch (e) { out.textContent = "Lỗi: " + e; }
+}
+
+async function doTransition() {
+  const out = $("statusResult");
+  const sid = $("statusSolutionId").value.trim();
+  const target = $("statusTarget").value;
+  if (!sid) { out.textContent = "Nhập Solution ID."; return; }
+  out.textContent = "Đang chuyển...";
+  try {
+    const res = await fetch(`/api/v1/section-2/solutions/${encodeURIComponent(sid)}/status`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ status: target, actor: "ui" }) });
+    const d = await res.json();
+    if (!res.ok) { out.textContent = "Lỗi: " + JSON.stringify(d); return; }
+    out.innerHTML = `<p>${esc(sid)} → ${statusBadge(d.status)}</p>`;
+    loadSection2();
+  } catch (e) { out.textContent = "Lỗi: " + e; }
+}
+
+async function doReport() {
+  const out = $("reportResult");
+  const sid = $("reportSolutionId").value.trim();
+  if (!sid) { out.textContent = "Nhập Solution ID."; return; }
+  out.textContent = "Đang verify & report...";
+  const body = {
+    solution_id: sid,
+    snapshot_before: $("reportSnapBefore").value || "S-BASE",
+    snapshot_after: $("reportSnapAfter").value || "S-RETEST",
+    baseline_p50: parseFloat($("reportBaselineP50").value) || 100,
+    retest_p50: parseFloat($("reportRetestP50").value) || 80,
+    guardrail_breached: $("reportGuardrail").value === "true",
+    validity: {
+      v1_same_fingerprint: true, v2_same_business_complexity: true,
+      v3_equivalent_conditions: true, v4_sufficient_sample_size: true,
+      v5_single_variable_diff: true, v6_distribution_provided: true,
+    },
+  };
+  try {
+    const res = await fetch("/api/v1/section-2/report", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+    const d = await res.json();
+    if (!res.ok) { out.textContent = "Lỗi: " + JSON.stringify(d); return; }
+    const rr = d.retest_result || {};
+    out.innerHTML = `<p>Quyết định: <strong>${esc(rr.decision)}</strong> · improvement ${rr.improvement_pct}%</p>` +
+      `<p class="note">${esc(rr.reasoning || "")}</p>` +
+      `<details><summary>Báo cáo Markdown</summary><pre>${esc(d.report_markdown || "")}</pre></details>`;
+    loadSection2();
+  } catch (e) { out.textContent = "Lỗi: " + e; }
+}
+
+async function doLoadPlans() {
+  const out = $("plansList");
+  out.textContent = "Đang tải...";
+  try {
+    const res = await fetch("/api/v1/section-2/plans");
+    const d = await res.json();
+    if (!res.ok) { out.textContent = "Lỗi: " + JSON.stringify(d); return; }
+    const plans = d.plans || [];
+    if (!plans.length) { out.innerHTML = "<p class='note'>Chưa có plan nào.</p>"; return; }
+    out.innerHTML = plans.map(p => `
+      <div class="hypo" style="margin:6px 0;">
+        <p><strong>${esc(p.solution_id)}</strong> · ${p.phases.length} phase · rev ${p.revision}</p>
+        ${p.phases.map(ph => `<p class="note">${esc(ph.phase_id)}: ${esc(ph.change_variable)} — keep ≥25%, revert &lt;10%</p>`).join("")}
+      </div>`).join("");
+  } catch (e) { out.textContent = "Lỗi: " + e; }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -736,6 +870,14 @@ document.addEventListener("DOMContentLoaded", () => {
   });
   $("cmdSelect").addEventListener("change", onCommandChange);
   $("btnRun").addEventListener("click", () => runLane());
+
+  // §2 wiring
+  $("btnRerank").addEventListener("click", doRerank);
+  $("btnCreatePlan").addEventListener("click", doCreatePlan);
+  $("btnTransition").addEventListener("click", doTransition);
+  $("btnReport").addEventListener("click", doReport);
+  $("btnLoadPlans").addEventListener("click", doLoadPlans);
+  loadSection2();
 
   addObjectiveRow();
   addGuardrailRow();
