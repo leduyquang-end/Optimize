@@ -1,0 +1,726 @@
+{
+  "entities": [
+    {
+      "name": "HỌC BỔNG KKHT",
+      "type": "LOAI_HOC_BONG",
+      "description": "Học bổng khuyến khích học tập dành cho sinh viên đạt kết quả học tập và rèn luyện tốt>"
+    },
+    {
+      "name": "HỌC BỔNG LOẠI KHÁ",
+      "type": "LOAI_HOC_BONG",
+      "description": "Học bổng loại Khá có giá trị bằng 100% mức học phí tín chỉ đại học nhân số tín chỉ tính học bổng của học kỳ'"
+    },
+    {
+      "name": "HỌC BỔNG LOẠI GIỎI",
+      "type": "LOAI_HOC_BONG",
+      "description": "Học bổng loại Giỏi có giá trị bằng 110% mức học phí tín chỉ đại học nhân số tín chỉ tính học bổng của học kỳ'"
+    },
+    {
+      "name": "HỌC BỔNG LOẠI XUẤT SẮC",
+      "type": "LOAI_HOC_BONG",
+      "description": "Học bổng loại Xuất sắc có giá trị bằng 120% mức học phí tín chỉ đại học nhân số tín chỉ tính học bổng của học kỳ'"
+    },
+    {
+      "name": "QUỸ HỌC BỔNG KKHT",
+      "type": "DON_VI",
+      "description": "Quỹ học bổng KKHT hình thành từ nguồn học phí và tối thiểu bằng 8% học phí của học kỳ lấy điểm xét cấp học bổng'"
+    },
+    {
+      "name": "100% HỌC PHÍ TÍN CHỈ",
+      "type": "MUC_HOC_BONG",
+      "description": "Giá trị học bổng loại Khá bằng 100% mức học phí tín chỉ đại học'"
+    },
+    {
+      "name": "110% HỌC PHÍ TÍN CHỈ",
+      "type": "MUC_HOC_BONG",
+      "description": "Giá trị học bổng loại Giỏi bằng 110% mức học phí tín chỉ đại học'"
+    },
+    {
+      "name": "120% HỌC PHÍ TÍN CHỈ",
+      "type": "MUC_HOC_BONG",
+      "description": "Giá trị học bổng loại Xuất sắc bằng 120% mức học phí tín chỉ đại học'"
+    },
+    {
+      "name": "SINH VIÊN ĐẠI HỌC",
+      "type": "DOI_TUONG",
+      "description": "Đối tượng được xét học bổng KKHT là sinh viên đại học chính quy ngành đào tạo thứ nhất"
+    },
+    {
+      "name": "ĐẠI HỌC THỦY LỢI",
+      "type": "DON_VI",
+      "description": "Trường Đại học Thủy lợi là đơn vị đào tạo và cấp học bổng KKHT"
+    },
+    {
+      "name": "CHƯƠNG TRÌNH ĐÀO TẠO",
+      "type": "QUY_TRINH",
+      "description": "Chương trình đào tạo đại học chính quy tại trường Đại học Thủy lợi"
+    },
+    {
+      "name": "THỜI GIAN THIẾT KẾ",
+      "type": "DIEU_KIEN",
+      "description": "Sinh viên phải đang theo học trong thời gian thiết kế cho chương trình đào tạo"
+    },
+    {
+      "name": "NGÀNH ĐÀO TẠO THỨ NHẤT",
+      "type": "DIEU_KIEN",
+      "description": "Sinh viên phải theo học ngành đào tạo thứ nhất ở bậc đại học"
+    },
+    {
+      "name": "LIÊN THÔNG CAO ĐẰNG",
+      "type": "DIEU_KIEN",
+      "description": "Sinh viên liên thông cao đẳng lên đại học hình thức chính quy cũng được xét học bổng"
+    },
+    {
+      "name": "GPA 3.20 - 3.59",
+      "type": "GPA_RANGE",
+      "description": "GPA loại giỏi: từ 3.20 đến 3.59",
+      "gpa_min": 3.2,
+      "gpa_max": 3.59
+    },
+    {
+      "name": "GPA 2.50 - 3.19",
+      "type": "GPA_RANGE",
+      "description": "GPA loại khá: từ 2.50 đến 3.19",
+      "gpa_min": 2.5,
+      "gpa_max": 3.19
+    },
+    {
+      "name": "GPA 3.60 - 4.00",
+      "type": "GPA_RANGE",
+      "description": "GPA loại xuất sắc: từ 3.60 đến 4.00",
+      "gpa_min": 3.6,
+      "gpa_max": 4.0
+    },
+    {
+      "name": "RÈN LUYỆN 80 - 89",
+      "type": "RL_CONDITION",
+      "description": "Điểm rèn luyện loại tốt: từ 80 đến 89"
+    },
+    {
+      "name": "RÈN LUYỆN 65 - 79",
+      "type": "RL_CONDITION",
+      "description": "Điểm rèn luyện loại khá: từ 65 đến 79"
+    },
+    {
+      "name": "RÈN LUYỆN 90 - 100",
+      "type": "RL_CONDITION",
+      "description": "Điểm rèn luyện loại xuất sắc: từ 90 đến 100"
+    },
+    {
+      "name": "ĐIỂM TRUNG BÌNH HỌC TẬP",
+      "type": "GPA_RANGE",
+      "description": "Điểm trung bình học tập để xét học bổng KKHT tính theo kết quả tổng kết học phần các môn học lần đầu sinh viên đăng ký học trong học kỳ>"
+    },
+    {
+      "name": "ĐIỂM RÈN LUYỆN",
+      "type": "RL_CONDITION",
+      "description": "Điểm rèn luyện trong kỳ tính học bổng KKHT xác định theo quy định hiện hành của Bộ Giáo dục và Đào tạo về đánh giá kết quả rèn luyện>"
+    },
+    {
+      "name": "TÍN CHỈ >= 15",
+      "type": "CREDIT_CONDITION",
+      "description": "Số tín chỉ môn học lần đầu đăng ký học & thi trong kỳ phải tối thiểu 15 tín chỉ; hoặc bằng số tín chỉ tối đa mở cho ngành đó ở mỗi học kỳ nếu số tín chỉ tối đa mở cho ngành học đó trong học kỳ nhỏ hơn 15 tín chỉ>",
+      "credit_min": 15
+    },
+    {
+      "name": "SỐ TÍN CHỈ TỐI ĐA NGÀNH",
+      "type": "CREDIT_CONDITION",
+      "description": "Số tín chỉ tối đa mở cho ngành học đó trong học kỳ nếu nhỏ hơn 15 tín chỉ sẽ được xét thay cho 15 tín chỉ chuẩn>",
+      "credit_special": "Số tín chỉ tối đa mở cho ngành học đó trong học kỳ nếu nhỏ hơn 15 tín chỉ sẽ được xét thay cho 15 tín chỉ chuẩn>"
+    },
+    {
+      "name": "SỐ TÍN CHỈ TÍCH LŨY",
+      "type": "CREDIT_CONDITION",
+      "description": "Số tín chỉ tích lũy đến thời điểm xét ít nhất bằng số tín chỉ quy định theo chương trình đào tạo chuẩn cho sinh viên đã học vượt>"
+    },
+    {
+      "name": "HỌC BỔNG XUẤT SẮC",
+      "type": "MUC_HOC_BONG",
+      "description": "Học bổng KKHT mức Xuất sắc dành cho sinh viên có thành tích học tập và rèn luyện xuất sắc>"
+    },
+    {
+      "name": "HỌC BỔNG GIỎI",
+      "type": "MUC_HOC_BONG",
+      "description": "Học bổng KKHT mức Giỏi dành cho sinh viên có thành tích học tập và rèn luyện giỏi>"
+    },
+    {
+      "name": "HỌC BỔNG KHÁ",
+      "type": "MUC_HOC_BONG",
+      "description": "Học bổng KKHT mức Khá dành cho sinh viên có thành tích học tập và rèn luyện khá>"
+    },
+    {
+      "name": "SINH VIÊN",
+      "type": "DOI_TUONG",
+      "description": "Sinh viên是 đối tượng được xét học bổng KKHT>"
+    },
+    {
+      "name": "TRƯỜNG ĐẠI HỌC THỦY LỢI",
+      "type": "DON_VI",
+      "description": "Trường đại học áp dụng chế độ học bổng chính sách cho sinh viên cử tuyển"
+    },
+    {
+      "name": "QUY TRÌNH XÉT HỌC BỔNG",
+      "type": "QUY_TRINH",
+      "description": "Quy trình xét học bổng KKHT bao gồm việc xét điểm trung bình học tập, điểm rèn luyện và số tín chỉ tính học bổng>"
+    },
+    {
+      "name": "HỘI ĐỒNG XÉT CẤP HỌC BỔNG KKHT",
+      "type": "QUY_TRINH",
+      "description": "Hội đồng xét cấp học bổng KKHT được thành lập theo quyết định của Hiệu trưởng, có nhiệm vụ giúp Hiệu trưởng thực hiện xét, cấp học bổng căn cứ quy định tại các điều, khoản của Quy định này"
+    },
+    {
+      "name": "CHỦ TỊCH HỘI ĐỒNG",
+      "type": "DOI_TUONG",
+      "description": "Chủ tịch Hội đồng: Một thành viên của Ban Giám hiệu"
+    },
+    {
+      "name": "ỦY VIÊN THƯỜNG TRỰC",
+      "type": "DOI_TUONG",
+      "description": "Ủy viên thường trực: Trưởng phòng Công tác Sinh viên"
+    },
+    {
+      "name": "CÁC ỦY VIÊN CỦA HỘI ĐỒNG",
+      "type": "DOI_TUONG",
+      "description": "Các ủy viên của Hội đồng gồm đại diện các đơn vị: Phòng Đào tạo, Phòng Tài chính - Kế toán và một số ủy viên khác từ các đơn vị thuộc Trường có liên quan"
+    },
+    {
+      "name": "BAN GIÁM HIỆU",
+      "type": "DON_VI",
+      "description": "Ban Giám hiệu của Trường Đại học Thủy lợi"
+    },
+    {
+      "name": "PHÒNG CÔNG TÁC SINH VIÊN",
+      "type": "DON_VI",
+      "description": "Phòng Công tác Sinh viên của Trường Đại học Thủy lợi"
+    },
+    {
+      "name": "PHÒNG ĐÀO TẠO",
+      "type": "DON_VI",
+      "description": "Phòng Đào tạo của Trường Đại học Thủy lợi"
+    },
+    {
+      "name": "PHÒNG TÀI CHÍNH - KẾ TOÁN",
+      "type": "DON_VI",
+      "description": "Phòng Tài chính - Kế toán của Trường Đại học Thủy lợi"
+    },
+    {
+      "name": "QUY ĐỊNH C ẤP HỌC BỔNG KKHT",
+      "type": "QUY_TRINH",
+      "description": "Quy định về quy trình xét, cấp học bổng KKHT cho sinh viên"
+    },
+    {
+      "name": "KẾT QUẢ HỌC TẬP",
+      "type": "DIEU_KIEN",
+      "description": "Kết quả học tập của sinh viên là một trong những điều kiện xét cấp học bổng KKHT"
+    },
+    {
+      "name": "KẾT QUẢ RÈN LUYỆN",
+      "type": "DIEU_KIEN",
+      "description": "Kết quả rèn luyện của sinh viên là một trong những điều kiện xét cấp học bổng KKHT"
+    },
+    {
+      "name": "PHÒNG CHÍNH TRỊ VÀ CÔNG TÁC SINH VIÊN",
+      "type": "DON_VI",
+      "description": "Đơn vị chịu trách nhiệm tổng hợp kết quả học tập, rèn luyện của sinh viên và công bố danh sách sinh viên đủ điều kiện xét cấp học bổng KKHT"
+    },
+    {
+      "name": "CÁC KHOA, TRUNG TÂM",
+      "type": "DON_VI",
+      "description": "Đơn vị đề xuất danh sách sinh viên đủ điều kiện cấp học bổng KKHT"
+    },
+    {
+      "name": "HỘI ĐỒNG XÉT, CẤP HỌC BỔNG KKHT",
+      "type": "DON_VI",
+      "description": "Đơn vị quyết định danh sách sinh viên được cấp học bổng KKHT trong kỳ"
+    },
+    {
+      "name": "HỌC BỔNG CHÍNH SÁCH",
+      "type": "LOAI_HOC_BONG",
+      "description": "Học bổng dành cho sinh viên theo chế độ cử tuyển đang theo học bình thường tại trường"
+    },
+    {
+      "name": "SINH VIÊN CỬ TUYỂN",
+      "type": "DOI_TUONG",
+      "description": "Sinh viên theo chế độ cử tuyển được áp dụng chế độ học bổng chính sách"
+    },
+    {
+      "name": "MỨC LƯƠNG CƠ SỞ",
+      "type": "MUC_HOC_BONG",
+      "description": "Mức học bổng chính sách 01 tháng bằng 80% mức lương cơ sở>"
+    },
+    {
+      "name": "ĐỐI TƯỢNG HỌC BỔNG",
+      "type": "DOI_TUONG",
+      "description": "Đối tượng học bổng chính sách quy định tại Điều 5>"
+    },
+    {
+      "name": "NGUYÊN TẮC HƯỞNG",
+      "type": "QUY_TRINH",
+      "description": "Nguyên tắc hưởng học bổng chính sách>"
+    },
+    {
+      "name": "CHẾ ĐỘ HỌC BỔNG 1 LẦN",
+      "type": "DIEU_KIEN",
+      "description": "Chỉ được hưởng chế độ học bổng chính sách một lần trong cả quá trình học>"
+    },
+    {
+      "name": "NHIỀU CHÍNH SÁCH",
+      "type": "DIEU_KIEN",
+      "description": "Trường hợp sinh viên thuộc đối tượng được hưởng nhiều chính sách cùng lúc thì chỉ được hưởng một chính sách cao nhất>"
+    },
+    {
+      "name": "HỌC ĐỒNG THỜI",
+      "type": "DIEU_KIEN",
+      "description": "Học đồng thời nhiều ngành, nhiều cơ sở giáo dục thì chỉ được hưởng chính sách ở một ngành tại một cơ sở giáo dục>"
+    },
+    {
+      "name": "TRỢ CẤP ƯU ĐÃI",
+      "type": "DIEU_KIEN",
+      "description": "Sinh viên là đối tượng được hưởng chính sách theo quy định nhưng thuộc đối tượng được hưởng chính sách trợ cấp ưu đãi, trợ cấp xã hội, học bổng KKHT thì vẫn được hưởng các chính sách này theo quy định>"
+    },
+    {
+      "name": "BỊ KỶ LUẬT",
+      "type": "DIEU_KIEN",
+      "description": "Sinh viên bị kỷ luật buộc thôi học hoặc bị đình chỉ học tập thì không được hưởng các chính sách quy định kể từ thời điểm quyết định kỷ luật có hiệu lực hoặc trong thời gian bị đình chỉ>"
+    },
+    {
+      "name": "HỌC BỔNG 12 THÁNG",
+      "type": "DIEU_KIEN",
+      "description": "Học bổng chính sách được cấp đủ 12 tháng/năm, số năm học được hưởng chính sách không được vượt quá số năm hoặc số học kỳ tối đa để hoàn thành chương trình đào tạo tương ứng với các ngành học theo quy định>"
+    },
+    {
+      "name": "NĂM HỌC CUỐI",
+      "type": "DIEU_KIEN",
+      "description": "Riêng đối với năm học cuối được hưởng theo số tháng thực học>"
+    },
+    {
+      "name": "HỌC VĂN BẰNG 2",
+      "type": "DIEU_KIEN",
+      "description": "Không áp dụng học bổng chính sách đối với sinh viên học văn bằng hai, đào tạo theo địa chỉ, hình thức đào tạo từ xa, liên kết đào tạo và vừa làm vừa học>"
+    },
+    {
+      "name": "SINH VIÊN THEO CHẾ ĐỘ CỬ TUYỂN",
+      "type": "DOI_TUONG",
+      "description": "Đối tượng được nhận học bổng"
+    },
+    {
+      "name": "LẦN THỨ NHẤT CẤP HỌC BỔNG",
+      "type": "QUY_TRINH",
+      "description": "Lần cấp học bổng đầu tiên vào tháng 10 hàng năm sau khi có kết quả xét học vụ học kỳ 2 liền trước"
+    },
+    {
+      "name": "LẦN THỨ HAI CẤP HỌC BỔNG",
+      "type": "QUY_TRINH",
+      "description": "Lần cấp học bổng thứ hai vào tháng 3 hàng năm sau khi có kết quả xét học vụ học kỳ 1 liền trước"
+    },
+    {
+      "name": "SINH VIÊN MỚI NHẬP HỌC",
+      "type": "DIEU_KIEN",
+      "description": "Trường hợp sinh viên mới nhập học được cấp học bổng lần đầu vào tháng 3 của năm liền sau"
+    },
+    {
+      "name": "TỰ THÔI HỌC HOẶC BỊ KỶ LUẬT",
+      "type": "DIEU_KIEN",
+      "description": "Điều kiện sinh viên phải bồi hoàn toàn bộ số tiền học bổng đã nhận nếu tự thôi học hoặc bị kỷ luật buộc thôi học"
+    },
+    {
+      "name": "QUY ĐỊNH HỌC BỔNG",
+      "type": "QUY_TRINH",
+      "description": "Quy định học bổng của Trường Đại học Thủy lợi）"
+    },
+    {
+      "name": "HIỆU TRƯỞNG",
+      "type": "DON_VI",
+      "description": "Đơn vị phụ trách quy định học bổng）"
+    },
+    {
+      "name": "PHÒNG CHÍNH TRỊ & CÔNG TÁC SINH VIÊN",
+      "type": "DON_VI",
+      "description": "Đơn vị phụ trách công tác sinh viên）"
+    },
+    {
+      "name": "HỌC KỲ 2 NĂM HỌC 2020 – 2021",
+      "type": "QUY_TRINH",
+      "description": "Thời gian quy định học bổng có hiệu lực）"
+    },
+    {
+      "name": "ĐƠN VỊ, CÁ NHÂN",
+      "type": "DOI_TUONG",
+      "description": "Đối tượng tham gia quy định học bổng）"
+    }
+  ],
+  "relationships": [
+    {
+      "source": "HỌC BỔNG KKHT",
+      "target": "HỌC BỔNG LOẠI KHÁ",
+      "description": "Học bổng KKHT bao gồm học bổng loại Khá",
+      "strength": 10.0
+    },
+    {
+      "source": "HỌC BỔNG KKHT",
+      "target": "HỌC BỔNG LOẠI GIỎI",
+      "description": "Học bổng KKHT bao gồm học bổng loại Giỏi",
+      "strength": 10.0
+    },
+    {
+      "source": "HỌC BỔNG KKHT",
+      "target": "HỌC BỔNG LOẠI XUẤT SẮC",
+      "description": "Học bổng KKHT bao gồm học bổng loại Xuất sắc",
+      "strength": 10.0
+    },
+    {
+      "source": "HỌC BỔNG LOẠI KHÁ",
+      "target": "100% HỌC PHÍ TÍN CHỈ",
+      "description": "Học bổng loại Khá có giá trị 100% mức học phí tín chỉ",
+      "strength": 10.0
+    },
+    {
+      "source": "HỌC BỔNG LOẠI GIỎI",
+      "target": "110% HỌC PHÍ TÍN CHỈ",
+      "description": "Học bổng loại Giỏi có giá trị 110% mức học phí tín chỉ",
+      "strength": 10.0
+    },
+    {
+      "source": "HỌC BỔNG LOẠI XUẤT SẮC",
+      "target": "120% HỌC PHÍ TÍN CHỈ",
+      "description": "Học bổng loại Xuất sắc có giá trị 120% mức học phí tín chỉ",
+      "strength": 10.0
+    },
+    {
+      "source": "QUỸ HỌC BỔNG KKHT",
+      "target": "HỌC BỔNG KKHT",
+      "description": "Quỹ học bổng KKHT là nguồn tài trợ cho học bổng KKHT",
+      "strength": 10.0
+    },
+    {
+      "source": "SINH VIÊN ĐẠI HỌC",
+      "target": "ĐẠI HỌC THỦY LỢI",
+      "description": "Sinh viên đang theo học tại trường Đại học Thủy lợi",
+      "strength": 10.0
+    },
+    {
+      "source": "SINH VIÊN ĐẠI HỌC",
+      "target": "CHƯƠNG TRÌNH ĐÀO TẠO",
+      "description": "Sinh viên tham gia chương trình đào tạo đại học chính quy",
+      "strength": 10.0
+    },
+    {
+      "source": "SINH VIÊN ĐẠI HỌC",
+      "target": "THỜI GIAN THIẾT KẾ",
+      "description": "Sinh viên phải đáp ứng điều kiện thời gian thiết kế cho chương trình đào tạo",
+      "strength": 9.0
+    },
+    {
+      "source": "SINH VIÊN ĐẠI HỌC",
+      "target": "NGÀNH ĐÀO TẠO THỨ NHẤT",
+      "description": "Sinh viên phải theo học ngành đào tạo thứ nhất",
+      "strength": 9.0
+    },
+    {
+      "source": "SINH VIÊN ĐẠI HỌC",
+      "target": "LIÊN THÔNG CAO ĐẰNG",
+      "description": "Sinh viên liên thông cao đẳng lên đại học cũng được xét học bổng",
+      "strength": 8.0
+    },
+    {
+      "source": "HỌC BỔNG LOẠI KHÁ",
+      "target": "GPA 2.50 - 3.19",
+      "description": "Học bổng loại Khá yêu cầu GPA từ 2.50 đến 3.19",
+      "strength": 9.0
+    },
+    {
+      "source": "HỌC BỔNG LOẠI KHÁ",
+      "target": "RÈN LUYỆN 65 - 79",
+      "description": "Học bổng loại Khá yêu cầu điểm rèn luyện từ 65 đến 79",
+      "strength": 9.0
+    },
+    {
+      "source": "HỌC BỔNG LOẠI GIỎI",
+      "target": "GPA 3.20 - 3.59",
+      "description": "Học bổng loại Giỏi yêu cầu GPA từ 3.20 đến 3.59",
+      "strength": 9.0
+    },
+    {
+      "source": "HỌC BỔNG LOẠI GIỎI",
+      "target": "RÈN LUYỆN 80 - 89",
+      "description": "Học bổng loại Giỏi yêu cầu điểm rèn luyện từ 80 đến 89",
+      "strength": 9.0
+    },
+    {
+      "source": "HỌC BỔNG LOẠI XUẤT SẮC",
+      "target": "GPA 3.60 - 4.00",
+      "description": "Học bổng loại Xuất sắc yêu cầu GPA từ 3.60 đến 4.00",
+      "strength": 9.0
+    },
+    {
+      "source": "HỌC BỔNG LOẠI XUẤT SẮC",
+      "target": "RÈN LUYỆN 90 - 100",
+      "description": "Học bổng loại Xuất sắc yêu cầu điểm rèn luyện từ 90 đến 100",
+      "strength": 9.0
+    },
+    {
+      "source": "HỌC BỔNG KKHT",
+      "target": "ĐIỂM TRUNG BÌNH HỌC TẬP",
+      "description": "Học bổng KKHT được xét dựa trên điểm trung bình học tập",
+      "strength": 9.0
+    },
+    {
+      "source": "HỌC BỔNG KKHT",
+      "target": "ĐIỂM RÈN LUYỆN",
+      "description": "Học bổng KKHT được xét dựa trên điểm rèn luyện",
+      "strength": 9.0
+    },
+    {
+      "source": "HỌC BỔNG KKHT",
+      "target": "TÍN CHỈ >= 15",
+      "description": "Học bổng KKHT yêu cầu số tín chỉ môn học lần đầu đăng ký học & thi trong kỳ phải tối thiểu 15 tín chỉ hoặc bằng số tín chỉ tối đa mở cho ngành đó ở mỗi học kỳ",
+      "strength": 10.0
+    },
+    {
+      "source": "HỌC BỔNG KKHT",
+      "target": "SỐ TÍN CHỈ TỐI ĐA NGÀNH",
+      "description": "Học bổng KKHT sẽ xét số tín chỉ tối đa mở cho ngành học đó trong học kỳ nếu nhỏ hơn 15 tín chỉ",
+      "strength": 10.0
+    },
+    {
+      "source": "HỌC BỔNG KKHT",
+      "target": "SỐ TÍN CHỈ TÍCH LŨY",
+      "description": "Học bổng KKHT sẽ xét số tín chỉ tích lũy đến thời điểm xét ít nhất bằng số tín chỉ quy định theo chương trình đào tạo chuẩn cho sinh viên đã học vượt",
+      "strength": 10.0
+    },
+    {
+      "source": "HỌC BỔNG XUẤT SẮC",
+      "target": "HỌC BỔNG GIỎI",
+      "description": "Học bổng Xuất sắc và Giỏi là hai mức học bổng khác nhau trong học bổng KKHT",
+      "strength": 8.0
+    },
+    {
+      "source": "HỌC BỔNG GIỎI",
+      "target": "HỌC BỔNG KHÁ",
+      "description": "Học bổng Giỏi và Khá là hai mức học bổng khác nhau trong học bổng KKHT",
+      "strength": 8.0
+    },
+    {
+      "source": "SINH VIÊN",
+      "target": "TRƯỜNG ĐẠI HỌC THỦY LỢI",
+      "description": "Sinh viên là thành viên của Trường Đại học Thủy lợi",
+      "strength": 10.0
+    },
+    {
+      "source": "QUY TRÌNH XÉT HỌC BỔNG",
+      "target": "HỌC BỔNG KKHT",
+      "description": "Quy trình xét học bổng KKHT được thực hiện để cấp học bổng KKHT",
+      "strength": 10.0
+    },
+    {
+      "source": "HỘI ĐỒNG XÉT CẤP HỌC BỔNG KKHT",
+      "target": "CHỦ TỊCH HỘI ĐỒNG",
+      "description": "Chủ tịch Hội đồng là thành viên của Ban Giám hiệu",
+      "strength": 10.0
+    },
+    {
+      "source": "HỘI ĐỒNG XÉT CẤP HỌC BỔNG KKHT",
+      "target": "ỦY VIÊN THƯỜNG TRỰC",
+      "description": "Ủy viên thường trực là Trưởng phòng Công tác Sinh viên",
+      "strength": 10.0
+    },
+    {
+      "source": "HỘI ĐỒNG XÉT CẤP HỌC BỔNG KKHT",
+      "target": "CÁC ỦY VIÊN CỦA HỘI ĐỒNG",
+      "description": "Các ủy viên của Hội đồng đại diện cho các đơn vị thuộc Trường",
+      "strength": 10.0
+    },
+    {
+      "source": "CHỦ TỊCH HỘI ĐỒNG",
+      "target": "BAN GIÁM HIỆU",
+      "description": "Chủ tịch Hội đồng là thành viên của Ban Giám hiệu",
+      "strength": 10.0
+    },
+    {
+      "source": "ỦY VIÊN THƯỜNG TRỰC",
+      "target": "PHÒNG CÔNG TÁC SINH VIÊN",
+      "description": "Ủy viên thường trực là Trưởng phòng Công tác Sinh viên",
+      "strength": 10.0
+    },
+    {
+      "source": "CÁC ỦY VIÊN CỦA HỘI ĐỒNG",
+      "target": "PHÒNG ĐÀO TẠO",
+      "description": "Các ủy viên của Hội đồng gồm đại diện từ Phòng Đào tạo",
+      "strength": 8.0
+    },
+    {
+      "source": "CÁC ỦY VIÊN CỦA HỘI ĐỒNG",
+      "target": "PHÒNG TÀI CHÍNH - KẾ TOÁN",
+      "description": "Các ủy viên của Hội đồng gồm đại diện từ Phòng Tài chính - Kế toán",
+      "strength": 8.0
+    },
+    {
+      "source": "HỌC BỔNG KKHT",
+      "target": "QUY ĐỊNH C ẤP HỌC BỔNG KKHT",
+      "description": "Học bổng KKHT được xét, cấp dựa trên quy định về quy trình xét, cấp",
+      "strength": 10.0
+    },
+    {
+      "source": "HỌC BỔNG KKHT",
+      "target": "KẾT QUẢ HỌC TẬP",
+      "description": "Kết quả học tập là một trong những điều kiện xét cấp học bổng KKHT",
+      "strength": 9.0
+    },
+    {
+      "source": "HỌC BỔNG KKHT",
+      "target": "KẾT QUẢ RÈN LUYỆN",
+      "description": "Kết quả rèn luyện là một trong những điều kiện xét cấp học bổng KKHT",
+      "strength": 9.0
+    },
+    {
+      "source": "PHÒNG CHÍNH TRỊ VÀ CÔNG TÁC SINH VIÊN",
+      "target": "CÁC KHOA, TRUNG TÂM",
+      "description": "Phòng Chính trị và Công tác sinh viên nhận đề xuất từ các Khoa, Trung tâm",
+      "strength": 8.0
+    },
+    {
+      "source": "PHÒNG CHÍNH TRỊ VÀ CÔNG TÁC SINH VIÊN",
+      "target": "HỘI ĐỒNG XÉT, CẤP HỌC BỔNG KKHT",
+      "description": "Phòng Chính trị và Công tác sinh viên gửi danh sách đề xuất đến Hội đồng xét, cấp học bổng KKHT",
+      "strength": 9.0
+    },
+    {
+      "source": "CÁC KHOA, TRUNG TÂM",
+      "target": "HỘI ĐỒNG XÉT, CẤP HỌC BỔNG KKHT",
+      "description": "Các Khoa, Trung tâm đề xuất danh sách sinh viên đủ điều kiện cấp học bổng KKHT cho Hội đồng",
+      "strength": 8.0
+    },
+    {
+      "source": "HỌC BỔNG CHÍNH SÁCH",
+      "target": "SINH VIÊN CỬ TUYỂN",
+      "description": "Học bổng chính sách dành cho sinh viên theo chế độ cử tuyển",
+      "strength": 10.0
+    },
+    {
+      "source": "HỌC BỔNG CHÍNH SÁCH",
+      "target": "TRƯỜNG ĐẠI HỌC THỦY LỢI",
+      "description": "Trường Đại học Thủy lợi là đơn vị áp dụng chế độ học bổng chính sách",
+      "strength": 10.0
+    },
+    {
+      "source": "HỌC BỔNG CHÍNH SÁCH",
+      "target": "MỨC LƯƠNG CƠ SỞ",
+      "description": "Học bổng chính sách được tính dựa trên mức lương cơ sở",
+      "strength": 10.0
+    },
+    {
+      "source": "HỌC BỔNG CHÍNH SÁCH",
+      "target": "ĐỐI TƯỢNG HỌC BỔNG",
+      "description": "Học bổng chính sách dành cho đối tượng quy định tại Điều 5",
+      "strength": 10.0
+    },
+    {
+      "source": "HỌC BỔNG CHÍNH SÁCH",
+      "target": "NGUYÊN TẮC HƯỞNG",
+      "description": "Học bổng chính sách có quy trình hưởng cụ thể",
+      "strength": 10.0
+    },
+    {
+      "source": "HỌC BỔNG CHÍNH SÁCH",
+      "target": "CHẾ ĐỘ HỌC BỔNG 1 LẦN",
+      "description": "Học bổng chính sách chỉ được hưởng một lần trong quá trình học",
+      "strength": 9.0
+    },
+    {
+      "source": "HỌC BỔNG CHÍNH SÁCH",
+      "target": "NHIỀU CHÍNH SÁCH",
+      "description": "Trường hợp nhiều chính sách, chỉ được hưởng một chính sách cao nhất",
+      "strength": 9.0
+    },
+    {
+      "source": "HỌC BỔNG CHÍNH SÁCH",
+      "target": "HỌC ĐỒNG THỜI",
+      "description": "Học đồng thời nhiều ngành, chỉ được hưởng chính sách ở một ngành",
+      "strength": 9.0
+    },
+    {
+      "source": "HỌC BỔNG CHÍNH SÁCH",
+      "target": "TRỢ CẤP ƯU ĐÃI",
+      "description": "Sinh viên được hưởng trợ cấp ưu đãi và học bổng chính sách",
+      "strength": 8.0
+    },
+    {
+      "source": "HỌC BỔNG CHÍNH SÁCH",
+      "target": "BỊ KỶ LUẬT",
+      "description": "Sinh viên bị kỷ luật, không được hưởng học bổng",
+      "strength": 10.0
+    },
+    {
+      "source": "HỌC BỔNG CHÍNH SÁCH",
+      "target": "HỌC BỔNG 12 THÁNG",
+      "description": "Học bổng chính sách được cấp đủ 12 tháng/năm",
+      "strength": 10.0
+    },
+    {
+      "source": "HỌC BỔNG CHÍNH SÁCH",
+      "target": "NĂM HỌC CUỐI",
+      "description": "Năm học cuối, học bổng được hưởng theo số tháng thực học",
+      "strength": 9.0
+    },
+    {
+      "source": "HỌC BỔNG CHÍNH SÁCH",
+      "target": "HỌC VĂN BẰNG 2",
+      "description": "Không áp dụng học bổng chính sách đối với sinh viên học văn bằng 2",
+      "strength": 10.0
+    },
+    {
+      "source": "HỌC BỔNG CHÍNH SÁCH",
+      "target": "SINH VIÊN THEO CHẾ ĐỘ CỬ TUYỂN",
+      "description": "Học bổng chính sách dành cho sinh viên theo chế độ cử tuyển",
+      "strength": 10.0
+    },
+    {
+      "source": "HỌC BỔNG CHÍNH SÁCH",
+      "target": "LẦN THỨ NHẤT CAPPING HỌC BỔNG",
+      "description": "Quy trình cấp học bổng lần đầu",
+      "strength": 9.0
+    },
+    {
+      "source": "HỌC BỔNG CHÍNH SÁCH",
+      "target": "LẦN THỨ HAI CẤP HỌC BỔNG",
+      "description": "Quy trình cấp học bổng lần thứ hai",
+      "strength": 9.0
+    },
+    {
+      "source": "HỌC BỔNG CHÍNH SÁCH",
+      "target": "SINH VIÊN MỚI NHẬP HỌC",
+      "description": "Quy trình cấp học bổng cho sinh viên mới nhập học",
+      "strength": 8.0
+    },
+    {
+      "source": "HỌC BỔNG CHÍNH SÁCH",
+      "target": "TỰ THÔI HỌC HOẶC BỊ KỶ LUẬT",
+      "description": "Điều kiện phải bồi hoàn học bổng",
+      "strength": 10.0
+    },
+    {
+      "source": "QUY ĐỊNH HỌC BỔNG",
+      "target": "HIỆU TRƯỞNG",
+      "description": "Quy định học bổng do Hiệu trưởng quyết định",
+      "strength": 5.0
+    },
+    {
+      "source": "QUY ĐỊNH HỌC BỔNG",
+      "target": "PHÒNG CHÍNH TRỊ & CÔNG TÁC SINH VIÊN",
+      "description": "Phòng Chính trị & Công tác sinh viên phụ trách quy định học bổng",
+      "strength": 5.0
+    },
+    {
+      "source": "QUY ĐỊNH HỌC BỔNG",
+      "target": "HỌC KỲ 2 NĂM HỌC 2020 – 2021",
+      "description": "Quy định học bổng có hiệu lực từ học kỳ 2 năm học 2020 – 2021",
+      "strength": 5.0
+    },
+    {
+      "source": "QUY ĐỊNH HỌC BỔNG",
+      "target": "ĐƠN VỊ, CÁ NHÂN",
+      "description": "Đơn vị, cá nhân tham gia quy định học bổng",
+      "strength": 5.0
+    }
+  ]
+}

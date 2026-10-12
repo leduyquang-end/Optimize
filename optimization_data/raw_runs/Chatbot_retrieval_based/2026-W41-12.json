@@ -1,0 +1,93 @@
+{
+  "benchmark_id": "BM-SRC-0005",
+  "feature": "Chatbot_retrieval_based",
+  "period": "2026-W41",
+  "command": [
+    "C:\\Users\\Admin\\AppData\\Local\\Microsoft\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\\python.exe",
+    "E:\\Training\\optimize\\optimization_data\\uploads\\SRC-0005\\Chatbot-retrieval-based\\bench_chat.py",
+    "--repeat",
+    "5"
+  ],
+  "fingerprint": "d78d38fa602b",
+  "config": {
+    "source": "SRC-0005"
+  },
+  "generated_at": "2026-10-10T05:04:19.740602+00:00",
+  "runs": [
+    {
+      "run_id": "r1",
+      "timestamp": "2026-10-10T05:04:19.740602+00:00",
+      "latency_ms": 1524.0,
+      "workload_ms": 1524.0,
+      "status": "success",
+      "fingerprint": "d78d38fa602b",
+      "config": {
+        "source": "SRC-0005"
+      },
+      "steps": {
+        "classify": 521.2,
+        "retrieve": 1002.8
+      }
+    },
+    {
+      "run_id": "r2",
+      "timestamp": "2026-10-10T05:04:19.740602+00:00",
+      "latency_ms": 232.8,
+      "workload_ms": 232.5,
+      "status": "success",
+      "fingerprint": "d78d38fa602b",
+      "config": {
+        "source": "SRC-0005"
+      },
+      "steps": {
+        "classify": 10.2,
+        "retrieve": 222.3
+      }
+    },
+    {
+      "run_id": "r3",
+      "timestamp": "2026-10-10T05:04:19.740602+00:00",
+      "latency_ms": 246.2,
+      "workload_ms": 245.9,
+      "status": "success",
+      "fingerprint": "d78d38fa602b",
+      "config": {
+        "source": "SRC-0005"
+      },
+      "steps": {
+        "classify": 9.9,
+        "retrieve": 236.0
+      }
+    },
+    {
+      "run_id": "r4",
+      "timestamp": "2026-10-10T05:04:19.740602+00:00",
+      "latency_ms": 248.2,
+      "workload_ms": 248.3,
+      "status": "success",
+      "fingerprint": "d78d38fa602b",
+      "config": {
+        "source": "SRC-0005"
+      },
+      "steps": {
+        "classify": 10.4,
+        "retrieve": 237.9
+      }
+    },
+    {
+      "run_id": "r5",
+      "timestamp": "2026-10-10T05:04:19.740602+00:00",
+      "latency_ms": 235.2,
+      "workload_ms": 235.1,
+      "status": "success",
+      "fingerprint": "d78d38fa602b",
+      "config": {
+        "source": "SRC-0005"
+      },
+      "steps": {
+        "classify": 9.5,
+        "retrieve": 225.6
+      }
+    }
+  ]
+}

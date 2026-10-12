@@ -1,0 +1,71 @@
+{
+  "benchmark_id": "BM-SRC-0005",
+  "feature": "Chatbot_retrieval_based",
+  "period": "2026-W41",
+  "command": [
+    "C:\\Users\\Admin\\AppData\\Local\\Microsoft\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\\python.exe",
+    "E:\\Training\\optimize\\optimization_data\\uploads\\SRC-0005\\Chatbot-retrieval-based\\app.py"
+  ],
+  "fingerprint": "dc409a478168",
+  "config": {
+    "source": "SRC-0005"
+  },
+  "generated_at": "2026-10-08T16:20:24.669651+00:00",
+  "runs": [
+    {
+      "run_id": "r1",
+      "timestamp": "2026-10-08T16:19:43.149536+00:00",
+      "latency_ms": 14408.782,
+      "status": "failed",
+      "fingerprint": "dc409a478168",
+      "config": {
+        "source": "SRC-0005"
+      },
+      "steps": {}
+    },
+    {
+      "run_id": "r2",
+      "timestamp": "2026-10-08T16:19:54.285356+00:00",
+      "latency_ms": 11135.848,
+      "status": "failed",
+      "fingerprint": "dc409a478168",
+      "config": {
+        "source": "SRC-0005"
+      },
+      "steps": {}
+    },
+    {
+      "run_id": "r3",
+      "timestamp": "2026-10-08T16:20:04.768716+00:00",
+      "latency_ms": 10483.215,
+      "status": "failed",
+      "fingerprint": "dc409a478168",
+      "config": {
+        "source": "SRC-0005"
+      },
+      "steps": {}
+    },
+    {
+      "run_id": "r4",
+      "timestamp": "2026-10-08T16:20:14.675831+00:00",
+      "latency_ms": 9907.207,
+      "status": "failed",
+      "fingerprint": "dc409a478168",
+      "config": {
+        "source": "SRC-0005"
+      },
+      "steps": {}
+    },
+    {
+      "run_id": "r5",
+      "timestamp": "2026-10-08T16:20:24.669651+00:00",
+      "latency_ms": 9993.934,
+      "status": "failed",
+      "fingerprint": "dc409a478168",
+      "config": {
+        "source": "SRC-0005"
+      },
+      "steps": {}
+    }
+  ]
+}

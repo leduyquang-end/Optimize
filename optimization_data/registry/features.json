@@ -1,0 +1,20 @@
+{
+  "features": [
+    {
+      "feature": "Feature_X_v2",
+      "variants": [
+        {
+          "fingerprint": "Feature_X_v2_subflow6_prod",
+          "rule_set": "v2",
+          "subflow_steps": 6,
+          "env": "prod"
+        }
+      ],
+      "steps": ["step1", "step2", "step3"],
+      "business_rule_card": "registry/cards/Feature_X_v2.md",
+      "domain_owner": "PENDING_DOMAIN_OWNER",
+      "lane_b_enabled": false,
+      "mode": "observe"
+    }
+  ]
+}

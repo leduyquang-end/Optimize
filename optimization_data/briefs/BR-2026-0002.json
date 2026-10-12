@@ -1,0 +1,38 @@
+{
+  "brief_id": "BR-2026-0002",
+  "feature_id": "Chatbot_retrieval_based",
+  "optimization_targets": [
+    {
+      "metric_name": "latency_p50_ms",
+      "unit": "ms",
+      "direction": "decrease",
+      "current_value": null,
+      "target_value": 250.0,
+      "priority": 1,
+      "measurement_source": "bench_chat.py STEP classify+retrieve"
+    }
+  ],
+  "guardrails": [
+    {
+      "metric_name": "quality_score",
+      "max_allowed_change_pct": 2.0,
+      "hard": true
+    }
+  ],
+  "thresholds": {
+    "keep_improvement_pct": 25.0,
+    "revert_improvement_pct": 10.0
+  },
+  "max_risk_tier": "prompt",
+  "scope_in": [
+    "retrieval k=5"
+  ],
+  "scope_out": [
+    "model selection"
+  ],
+  "business_context": "Giảm độ trễ trả lời chatbot.",
+  "business_rule_card": "optimization_data/registry/cards/Feature_X_v2.md",
+  "business_rule_card_confirmed": true,
+  "data_gaps": [],
+  "status": "validated"
+}

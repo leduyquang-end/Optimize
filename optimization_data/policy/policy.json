@@ -1,0 +1,29 @@
+{
+  "policy_id": "POL-001",
+  "version": 1,
+  "effective_from": "2026-10-08T00:00:00+07:00",
+  "approved_by": "PENDING_PROGRAM_OWNER",
+  "scan": {
+    "schedule": "weekly",
+    "budget_queries_per_run": 100,
+    "top_k": 3
+  },
+  "default_objectives": [
+    { "metric": "latency_p50_ms", "direction": "down" },
+    { "metric": "tokens_total", "direction": "down" }
+  ],
+  "default_guardrails": [
+    { "metric": "quality_score", "rule": ">= baseline", "hard": true },
+    { "metric": "error_rate", "rule": "<= baseline", "hard": true }
+  ],
+  "max_risk_tier": "config",
+  "persistence": {
+    "min_periods": 2,
+    "share_threshold": 0.25
+  },
+  "min_runs": 30,
+  "alert_triggers": [
+    { "metric": "latency_p90_ms", "condition": "above_threshold_for_2_periods" },
+    { "metric": "tokens_total", "condition": "week_over_week_increase_gt_0.3" }
+  ]
+}

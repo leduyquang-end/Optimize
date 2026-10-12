@@ -1,0 +1,38 @@
+{
+  "benchmark_id": "BM-SRC-0005",
+  "feature": "Chatbot_retrieval_based",
+  "period": "2026-W41",
+  "command": [
+    "C:\\Users\\Admin\\AppData\\Local\\Microsoft\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\\python.exe",
+    "bench_chat.py"
+  ],
+  "fingerprint": "4ad200e247e4",
+  "config": {
+    "source": "SRC-0005"
+  },
+  "generated_at": "2026-10-10T03:51:40.624981+00:00",
+  "runs": [
+    {
+      "run_id": "r1",
+      "timestamp": "2026-10-10T03:51:40.528453+00:00",
+      "latency_ms": 111.01,
+      "status": "failed",
+      "fingerprint": "4ad200e247e4",
+      "config": {
+        "source": "SRC-0005"
+      },
+      "steps": {}
+    },
+    {
+      "run_id": "r2",
+      "timestamp": "2026-10-10T03:51:40.624981+00:00",
+      "latency_ms": 95.739,
+      "status": "failed",
+      "fingerprint": "4ad200e247e4",
+      "config": {
+        "source": "SRC-0005"
+      },
+      "steps": {}
+    }
+  ]
+}

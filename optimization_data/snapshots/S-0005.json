@@ -1,0 +1,52 @@
+{
+  "snapshot_id": "S-0005",
+  "feature_id": "Chatbot_retrieval_based",
+  "fingerprint": "d71fa4df99e1",
+  "time_window_start": "2026-10-11T07:30:04.642771+00:00",
+  "time_window_end": "2026-10-11T07:30:04.642771+00:00",
+  "sample_count": 30,
+  "excluded_runs": [],
+  "is_weak_baseline": false,
+  "weak_baseline_reason": null,
+  "total_p50_latency_ms": 240.1,
+  "total_p90_latency_ms": 251.2,
+  "total_p99_latency_ms": 1592.1,
+  "step_breakdowns": [
+    {
+      "step_name": "retrieve",
+      "pct_of_total_time": 95.7987,
+      "p50_latency_ms": 230.3,
+      "p90_latency_ms": 240.9,
+      "p99_latency_ms": 1082.6,
+      "avg_token_count": null,
+      "is_critical_path": true,
+      "retry_rate": null,
+      "parallelizable": false
+    },
+    {
+      "step_name": "classify",
+      "pct_of_total_time": 4.2013,
+      "p50_latency_ms": 10.1,
+      "p90_latency_ms": 10.8,
+      "p99_latency_ms": 509.5,
+      "avg_token_count": null,
+      "is_critical_path": false,
+      "retry_rate": null,
+      "parallelizable": false
+    }
+  ],
+  "active_configs": {
+    "source": "SRC-0005"
+  },
+  "config_mismatch": [],
+  "config_mismatch_explained": null,
+  "config_change_in_window": false,
+  "fingerprint_mismatch_count": 0,
+  "replication_delta_pct": null,
+  "queries": [],
+  "data_gaps": [],
+  "brief_id": "BR-2026-0001",
+  "created_by": "optimize_api_lane_a",
+  "source_lane": "A",
+  "immutable": true
+}

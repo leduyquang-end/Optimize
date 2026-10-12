@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🛒 Hệ Thống Bán Hàng</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- ========================================================== -->
+    <!-- HEADER -->
+    <!-- ========================================================== -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <span class="logo-icon">🛒</span>
+                    <span class="logo-text">Sales System</span>
+                    <span class="logo-badge">v1.0</span>
+                </div>
+                <div class="header-status">
+                    <span class="status-dot" id="statusDot"></span>
+                    <span class="status-text" id="statusText">Đang kết nối...</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ========================================================== -->
+    <!-- MAIN CONTENT -->
+    <!-- ========================================================== -->
+    <main class="main">
+        <div class="container">
+            <!-- Tabs Navigation -->
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="products">
+                    <span class="tab-icon">📦</span> Sản Phẩm
+                </button>
+                <button class="tab-btn" data-tab="cart">
+                    <span class="tab-icon">🛒</span> Giỏ Hàng
+                    <span class="tab-badge" id="cartBadge">0</span>
+                </button>
+                <button class="tab-btn" data-tab="orders">
+                    <span class="tab-icon">📋</span> Đơn Hàng
+                </button>
+                <button class="tab-btn" data-tab="inventory">
+                    <span class="tab-icon">📦</span> Kho Hàng
+                </button>
+                <button class="tab-btn" data-tab="analytics">
+                    <span class="tab-icon">📊</span> Thống Kê
+                </button>
+                <button class="tab-btn" data-tab="system">
+                    <span class="tab-icon">⚙️</span> Hệ Thống
+                </button>
+            </div>
+
+            <!-- ========================================================== -->
+            <!-- TAB 1: PRODUCTS -->
+            <!-- ========================================================== -->
+            <div class="tab-content active" id="tab-products">
+                <div class="section-header">
+                    <h2>📦 Danh Sách Sản Phẩm</h2>
+                    <div class="section-actions">
+                        <div class="search-box">
+                            <input type="text" id="searchInput" placeholder="🔍 Tìm kiếm sản phẩm...">
+                        </div>
+                        <button class="btn btn-primary" onclick="showAddProduct()">
+                            ➕ Thêm Sản Phẩm
+                        </button>
+                        <button class="btn btn-secondary" onclick="loadProducts()">
+                            🔄 Refresh
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Product Grid -->
+                <div class="product-grid" id="productGrid">
+                    <div class="loading">🔄 Đang tải sản phẩm...</div>
+                </div>
+            </div>
+
+            <!-- ========================================================== -->
+            <!-- TAB 2: CART -->
+            <!-- ========================================================== -->
+            <div class="tab-content" id="tab-cart">
+                <div class="section-header">
+                    <h2>🛒 Giỏ Hàng Của Bạn</h2>
+                    <div class="section-actions">
+                        <button class="btn btn-danger" onclick="clearCart()">🧹 Xóa Giỏ Hàng</button>
+                    </div>
+                </div>
+
+                <div class="cart-container">
+                    <div class="cart-items" id="cartItems">
+                        <div class="empty-cart">
+                            <span class="empty-icon">🛒</span>
+                            <h3>Giỏ hàng trống</h3>
+                            <p>Hãy thêm sản phẩm từ danh sách sản phẩm</p>
+                        </div>
+                    </div>
+
+                    <div class="cart-summary" id="cartSummary">
+                        <div class="summary-row">
+                            <span>Tạm tính:</span>
+                            <span id="subtotal">₫0</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Giảm giá:</span>
+                            <span id="discount">₫0</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Phí ship:</span>
+                            <span id="shipping">₫0</span>
+                        </div>
+                        <div class="summary-row total">
+                            <span>Tổng cộng:</span>
+                            <span id="total">₫0</span>
+                        </div>
+                        <div class="checkout-section">
+                            <input type="text" id="couponInput" placeholder="🏷️ Mã giảm giá (SUMMER2024)">
+                            <button class="btn btn-secondary" onclick="applyCoupon()">Áp dụng</button>
+                            <input type="text" id="customerIdCheckout" placeholder="👤 Customer ID" value="customer_001">
+                            <button class="btn btn-primary btn-large" onclick="checkout()">
+                                💳 Thanh Toán
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========================================================== -->
+            <!-- TAB 3: ORDERS -->
+            <!-- ========================================================== -->
+            <div class="tab-content" id="tab-orders">
+                <div class="section-header">
+                    <h2>📋 Lịch Sử Đơn Hàng</h2>
+                    <div class="section-actions">
+                        <input type="text" id="customerIdInput" placeholder="👤 Customer ID" value="customer_001">
+                        <button class="btn btn-primary" onclick="loadOrders()">📋 Xem Đơn Hàng</button>
+                    </div>
+                </div>
+
+                <div class="orders-container" id="ordersContainer">
+                    <div class="loading">🔄 Đang tải đơn hàng...</div>
+                </div>
+            </div>
+
+            <!-- ========================================================== -->
+            <!-- TAB 4: INVENTORY -->
+            <!-- ========================================================== -->
+            <div class="tab-content" id="tab-inventory">
+                <div class="section-header">
+                    <h2>📦 Quản Lý Kho Hàng</h2>
+                    <div class="section-actions">
+                        <button class="btn btn-primary" onclick="loadInventory()">🔄 Refresh</button>
+                        <button class="btn btn-warning" onclick="showLowStock()">⚠️ Hàng Tồn Thấp</button>
+                    </div>
+                </div>
+
+                <div class="inventory-container">
+                    <table class="inventory-table">
+                        <thead>
+                            <tr>
+                                <th>Mã Sản Phẩm</th>
+                                <th>Số Lượng</th>
+                                <th>Kho</th>
+                                <th>Cập Nhật</th>
+                                <th>Trạng Thái</th>
+                            </tr>
+                        </thead>
+                        <tbody id="inventoryBody">
+                            <tr><td colspan="5" class="loading">🔄 Đang tải kho hàng...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ========================================================== -->
+            <!-- TAB 5: ANALYTICS -->
+            <!-- ========================================================== -->
+            <div class="tab-content" id="tab-analytics">
+                <div class="section-header">
+                    <h2>📊 Thống Kê Hệ Thống</h2>
+                    <div class="section-actions">
+                        <button class="btn btn-secondary" onclick="loadAnalytics()">🔄 Refresh</button>
+                    </div>
+                </div>
+
+                <div class="metrics-grid" id="metricsGrid">
+                    <div class="metric-card">
+                        <div class="metric-icon">📦</div>
+                        <div class="metric-info">
+                            <span class="metric-label">Tổng Đơn Hàng</span>
+                            <span class="metric-value" id="totalOrders">0</span>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon">💰</div>
+                        <div class="metric-info">
+                            <span class="metric-label">Doanh Thu</span>
+                            <span class="metric-value" id="totalRevenue">₫0</span>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon">👤</div>
+                        <div class="metric-info">
+                            <span class="metric-label">Khách Hàng</span>
+                            <span class="metric-value" id="totalCustomers">0</span>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon">💳</div>
+                        <div class="metric-info">
+                            <span class="metric-label">Trung Bình/Đơn</span>
+                            <span class="metric-value" id="avgOrder">₫0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <h3>📈 Doanh Số Theo Ngày</h3>
+                    <div class="chart" id="salesChart"></div>
+                </div>
+
+                <div class="funnel-container">
+                    <h3>🎯 Conversion Funnel</h3>
+                    <div class="funnel" id="funnel">
+                        <div class="funnel-step">
+                            <span class="funnel-label">Orders Created</span>
+                            <span class="funnel-value" id="ordersCreated">0</span>
+                        </div>
+                        <div class="funnel-step">
+                            <span class="funnel-label">Payments Success</span>
+                            <span class="funnel-value" id="paymentsSuccess">0</span>
+                        </div>
+                        <div class="funnel-step">
+                            <span class="funnel-label">Conversion Rate</span>
+                            <span class="funnel-value" id="conversionRate">0%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========================================================== -->
+            <!-- TAB 6: SYSTEM -->
+            <!-- ========================================================== -->
+            <div class="tab-content" id="tab-system">
+                <div class="section-header">
+                    <h2>⚙️ Quản Lý Hệ Thống</h2>
+                </div>
+
+                <div class="system-grid">
+                    <div class="system-card">
+                        <h3>📨 Sự Kiện Gần Đây</h3>
+                        <div id="eventsList" class="events-list">
+                            <div class="loading">🔄 Đang tải...</div>
+                        </div>
+                        <button class="btn btn-secondary" onclick="loadEvents()">🔄 Refresh Events</button>
+                    </div>
+
+                    <div class="system-card">
+                        <h3>🔌 Plugins</h3>
+                        <div id="pluginsList" class="plugins-list">
+                            <div class="loading">🔄 Đang tải...</div>
+                        </div>
+                        <button class="btn btn-secondary" onclick="loadPlugins()">🔄 Refresh Plugins</button>
+                    </div>
+
+                    <div class="system-card">
+                        <h3>ℹ️ Thông Tin Hệ Thống</h3>
+                        <div id="systemInfo" class="system-info">
+                            <div class="loading">🔄 Đang tải...</div>
+                        </div>
+                        <button class="btn btn-secondary" onclick="loadSystemInfo()">🔄 Refresh</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- ========================================================== -->
+    <!-- MODAL: Add Product -->
+    <!-- ========================================================== -->
+    <div class="modal" id="addProductModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>➕ Thêm Sản Phẩm Mới</h3>
+                <button class="modal-close" onclick="closeModal('addProductModal')">✕</button>
+            </div>
+            <div class="modal-body">
+                <form id="addProductForm">
+                    <div class="form-group">
+                        <label>Tên sản phẩm *</label>
+                        <input type="text" id="prodName" required placeholder="Nhập tên sản phẩm">
+                    </div>
+                    <div class="form-group">
+                        <label>Mô tả</label>
+                        <textarea id="prodDesc" placeholder="Nhập mô tả sản phẩm"></textarea>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Giá *</label>
+                            <input type="number" id="prodPrice" required placeholder="0" step="1000">
+                        </div>
+                        <div class="form-group">
+                            <label>Tồn kho *</label>
+                            <input type="number" id="prodStock" required placeholder="0" step="1">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>SKU *</label>
+                            <input type="text" id="prodSku" required placeholder="SKU-001">
+                        </div>
+                        <div class="form-group">
+                            <label>Danh mục</label>
+                            <input type="text" id="prodCategory" placeholder="Điện tử, Thời trang...">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('addProductModal')">Hủy</button>
+                <button class="btn btn-primary" onclick="submitProduct()">✅ Thêm Sản Phẩm</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================================== -->
+    <!-- TOAST NOTIFICATION -->
+    <!-- ========================================================== -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>

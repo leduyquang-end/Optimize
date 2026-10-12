@@ -1,0 +1,76 @@
+{
+  "benchmark_id": "BM-SRC-0009",
+  "feature": "sales_system",
+  "period": "2026-W41",
+  "command": [
+    "C:\\Users\\Admin\\AppData\\Local\\Microsoft\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\\python.exe",
+    "E:\\Training\\optimize\\optimization_data\\uploads\\SRC-0009\\sales_system\\app.py"
+  ],
+  "fingerprint": "3e01304a2c3b",
+  "config": {
+    "source": "SRC-0009"
+  },
+  "generated_at": "2026-10-11T08:37:48.310096+00:00",
+  "runs": [
+    {
+      "run_id": "r1",
+      "timestamp": "2026-10-11T08:29:48.106966+00:00",
+      "latency_ms": 120059.773,
+      "workload_ms": null,
+      "status": "failed",
+      "fingerprint": "3e01304a2c3b",
+      "config": {
+        "source": "SRC-0009"
+      },
+      "steps": {}
+    },
+    {
+      "run_id": "r2",
+      "timestamp": "2026-10-11T08:31:48.149236+00:00",
+      "latency_ms": 120041.694,
+      "workload_ms": null,
+      "status": "failed",
+      "fingerprint": "3e01304a2c3b",
+      "config": {
+        "source": "SRC-0009"
+      },
+      "steps": {}
+    },
+    {
+      "run_id": "r3",
+      "timestamp": "2026-10-11T08:33:48.198771+00:00",
+      "latency_ms": 120049.44,
+      "workload_ms": null,
+      "status": "failed",
+      "fingerprint": "3e01304a2c3b",
+      "config": {
+        "source": "SRC-0009"
+      },
+      "steps": {}
+    },
+    {
+      "run_id": "r4",
+      "timestamp": "2026-10-11T08:35:48.255651+00:00",
+      "latency_ms": 120056.912,
+      "workload_ms": null,
+      "status": "failed",
+      "fingerprint": "3e01304a2c3b",
+      "config": {
+        "source": "SRC-0009"
+      },
+      "steps": {}
+    },
+    {
+      "run_id": "r5",
+      "timestamp": "2026-10-11T08:37:48.310096+00:00",
+      "latency_ms": 120054.336,
+      "workload_ms": null,
+      "status": "failed",
+      "fingerprint": "3e01304a2c3b",
+      "config": {
+        "source": "SRC-0009"
+      },
+      "steps": {}
+    }
+  ]
+}

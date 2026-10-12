@@ -1,0 +1,468 @@
+{
+  "benchmark_id": "BM-SRC-0005",
+  "feature": "Chatbot_retrieval_based",
+  "period": "2026-W41",
+  "command": [
+    "C:\\Users\\Admin\\AppData\\Local\\Microsoft\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\\python.exe",
+    "E:\\Training\\optimize\\optimization_data\\uploads\\SRC-0005\\Chatbot-retrieval-based\\bench_chat.py",
+    "--repeat",
+    "30"
+  ],
+  "fingerprint": "d71fa4df99e1",
+  "config": {
+    "source": "SRC-0005"
+  },
+  "generated_at": "2026-10-11T07:30:04.642771+00:00",
+  "runs": [
+    {
+      "run_id": "r1",
+      "timestamp": "2026-10-11T07:30:04.642771+00:00",
+      "latency_ms": 1592.2,
+      "workload_ms": 1592.1,
+      "status": "success",
+      "fingerprint": "d71fa4df99e1",
+      "config": {
+        "source": "SRC-0005"
+      },
+      "steps": {
+        "classify": 509.5,
+        "retrieve": 1082.6
+      }
+    },
+    {
+      "run_id": "r2",
+      "timestamp": "2026-10-11T07:30:04.642771+00:00",
+      "latency_ms": 237.6,
+      "workload_ms": 237.5,
+      "status": "success",
+      "fingerprint": "d71fa4df99e1",
+      "config": {
+        "source": "SRC-0005"
+      },
+      "steps": {
+        "classify": 9.5,
+        "retrieve": 228.0
+      }
+    },
+    {
+      "run_id": "r3",
+      "timestamp": "2026-10-11T07:30:04.642771+00:00",
+      "latency_ms": 229.3,
+      "workload_ms": 229.2,
+      "status": "success",
+      "fingerprint": "d71fa4df99e1",
+      "config": {
+        "source": "SRC-0005"
+      },
+      "steps": {
+        "classify": 9.1,
+        "retrieve": 220.1
+      }
+    },
+    {
+      "run_id": "r4",
+      "timestamp": "2026-10-11T07:30:04.642771+00:00",
+      "latency_ms": 246.8,
+      "workload_ms": 246.7,
+      "status": "success",
+      "fingerprint": "d71fa4df99e1",
+      "config": {
+        "source": "SRC-0005"
+      },
+      "steps": {
+        "classify": 10.8,
+        "retrieve": 235.9
+      }
+    },
+    {
+      "run_id": "r5",
+      "timestamp": "2026-10-11T07:30:04.642771+00:00",
+      "latency_ms": 239.5,
+      "workload_ms": 239.4,
+      "status": "success",
+      "fingerprint": "d71fa4df99e1",
+      "config": {
+        "source": "SRC-0005"
+      },
+      "steps": {
+        "classify": 9.2,
+        "retrieve": 230.2
+      }
+    },
+    {
+      "run_id": "r6",
+      "timestamp": "2026-10-11T07:30:04.642771+00:00",
+      "latency_ms": 245.0,
+      "workload_ms": 244.8,
+      "status": "success",
+      "fingerprint": "d71fa4df99e1",
+      "config": {
+        "source": "SRC-0005"
+      },
+      "steps": {
+        "classify": 10.3,
+        "retrieve": 234.5
+      }
+    },
+    {
+      "run_id": "r7",
+      "timestamp": "2026-10-11T07:30:04.642771+00:00",
+      "latency_ms": 235.9,
+      "workload_ms": 235.9,
+      "status": "success",
+      "fingerprint": "d71fa4df99e1",
+      "config": {
+        "source": "SRC-0005"
+      },
+      "steps": {
+        "classify": 9.7,
+        "retrieve": 226.2
+      }
+    },
+    {
+      "run_id": "r8",
+      "timestamp": "2026-10-11T07:30:04.642771+00:00",
+      "latency_ms": 234.9,
+      "workload_ms": 234.7,
+      "status": "success",
+      "fingerprint": "d71fa4df99e1",
+      "config": {
+        "source": "SRC-0005"
+      },
+      "steps": {
+        "classify": 9.8,
+        "retrieve": 224.9
+      }
+    },
+    {
+      "run_id": "r9",
+      "timestamp": "2026-10-11T07:30:04.642771+00:00",
+      "latency_ms": 232.1,
+      "workload_ms": 232.1,
+      "status": "success",
+      "fingerprint": "d71fa4df99e1",
+      "config": {
+        "source": "SRC-0005"
+      },
+      "steps": {
+        "classify": 10.1,
+        "retrieve": 222.0
+      }
+    },
+    {
+      "run_id": "r10",
+      "timestamp": "2026-10-11T07:30:04.642771+00:00",
+      "latency_ms": 244.2,
+      "workload_ms": 244.0,
+      "status": "success",
+      "fingerprint": "d71fa4df99e1",
+      "config": {
+        "source": "SRC-0005"
+      },
+      "steps": {
+        "classify": 10.5,
+        "retrieve": 233.5
+      }
+    },
+    {
+      "run_id": "r11",
+      "timestamp": "2026-10-11T07:30:04.642771+00:00",
+      "latency_ms": 251.0,
+      "workload_ms": 251.0,
+      "status": "success",
+      "fingerprint": "d71fa4df99e1",
+      "config": {
+        "source": "SRC-0005"
+      },
+      "steps": {
+        "classify": 10.1,
+        "retrieve": 240.9
+      }
+    },
+    {
+      "run_id": "r12",
+      "timestamp": "2026-10-11T07:30:04.642771+00:00",
+      "latency_ms": 242.7,
+      "workload_ms": 242.5,
+      "status": "success",
+      "fingerprint": "d71fa4df99e1",
+      "config": {
+        "source": "SRC-0005"
+      },
+      "steps": {
+        "classify": 10.3,
+        "retrieve": 232.2
+      }
+    },
+    {
+      "run_id": "r13",
+      "timestamp": "2026-10-11T07:30:04.642771+00:00",
+      "latency_ms": 244.1,
+      "workload_ms": 244.0,
+      "status": "success",
+      "fingerprint": "d71fa4df99e1",
+      "config": {
+        "source": "SRC-0005"
+      },
+      "steps": {
+        "classify": 10.3,
+        "retrieve": 233.7
+      }
+    },
+    {
+      "run_id": "r14",
+      "timestamp": "2026-10-11T07:30:04.642771+00:00",
+      "latency_ms": 239.8,
+      "workload_ms": 239.7,
+      "status": "success",
+      "fingerprint": "d71fa4df99e1",
+      "config": {
+        "source": "SRC-0005"
+      },
+      "steps": {
+        "classify": 10.0,
+        "retrieve": 229.7
+      }
+    },
+    {
+      "run_id": "r15",
+      "timestamp": "2026-10-11T07:30:04.642771+00:00",
+      "latency_ms": 238.8,
+      "workload_ms": 238.7,
+      "status": "success",
+      "fingerprint": "d71fa4df99e1",
+      "config": {
+        "source": "SRC-0005"
+      },
+      "steps": {
+        "classify": 9.4,
+        "retrieve": 229.3
+      }
+    },
+    {
+      "run_id": "r16",
+      "timestamp": "2026-10-11T07:30:04.642771+00:00",
+      "latency_ms": 241.0,
+      "workload_ms": 240.9,
+      "status": "success",
+      "fingerprint": "d71fa4df99e1",
+      "config": {
+        "source": "SRC-0005"
+      },
+      "steps": {
+        "classify": 10.1,
+        "retrieve": 230.8
+      }
+    },
+    {
+      "run_id": "r17",
+      "timestamp": "2026-10-11T07:30:04.642771+00:00",
+      "latency_ms": 252.3,
+      "workload_ms": 252.3,
+      "status": "success",
+      "fingerprint": "d71fa4df99e1",
+      "config": {
+        "source": "SRC-0005"
+      },
+      "steps": {
+        "classify": 10.7,
+        "retrieve": 241.6
+      }
+    },
+    {
+      "run_id": "r18",
+      "timestamp": "2026-10-11T07:30:04.642771+00:00",
+      "latency_ms": 236.5,
+      "workload_ms": 236.2,
+      "status": "success",
+      "fingerprint": "d71fa4df99e1",
+      "config": {
+        "source": "SRC-0005"
+      },
+      "steps": {
+        "classify": 10.4,
+        "retrieve": 225.8
+      }
+    },
+    {
+      "run_id": "r19",
+      "timestamp": "2026-10-11T07:30:04.642771+00:00",
+      "latency_ms": 239.8,
+      "workload_ms": 239.7,
+      "status": "success",
+      "fingerprint": "d71fa4df99e1",
+      "config": {
+        "source": "SRC-0005"
+      },
+      "steps": {
+        "classify": 10.0,
+        "retrieve": 229.7
+      }
+    },
+    {
+      "run_id": "r20",
+      "timestamp": "2026-10-11T07:30:04.642771+00:00",
+      "latency_ms": 238.3,
+      "workload_ms": 238.1,
+      "status": "success",
+      "fingerprint": "d71fa4df99e1",
+      "config": {
+        "source": "SRC-0005"
+      },
+      "steps": {
+        "classify": 10.3,
+        "retrieve": 227.8
+      }
+    },
+    {
+      "run_id": "r21",
+      "timestamp": "2026-10-11T07:30:04.642771+00:00",
+      "latency_ms": 240.2,
+      "workload_ms": 240.1,
+      "status": "success",
+      "fingerprint": "d71fa4df99e1",
+      "config": {
+        "source": "SRC-0005"
+      },
+      "steps": {
+        "classify": 9.8,
+        "retrieve": 230.3
+      }
+    },
+    {
+      "run_id": "r22",
+      "timestamp": "2026-10-11T07:30:04.642771+00:00",
+      "latency_ms": 251.4,
+      "workload_ms": 251.2,
+      "status": "success",
+      "fingerprint": "d71fa4df99e1",
+      "config": {
+        "source": "SRC-0005"
+      },
+      "steps": {
+        "classify": 10.9,
+        "retrieve": 240.3
+      }
+    },
+    {
+      "run_id": "r23",
+      "timestamp": "2026-10-11T07:30:04.642771+00:00",
+      "latency_ms": 234.8,
+      "workload_ms": 234.7,
+      "status": "success",
+      "fingerprint": "d71fa4df99e1",
+      "config": {
+        "source": "SRC-0005"
+      },
+      "steps": {
+        "classify": 9.6,
+        "retrieve": 225.1
+      }
+    },
+    {
+      "run_id": "r24",
+      "timestamp": "2026-10-11T07:30:04.642771+00:00",
+      "latency_ms": 241.6,
+      "workload_ms": 241.4,
+      "status": "success",
+      "fingerprint": "d71fa4df99e1",
+      "config": {
+        "source": "SRC-0005"
+      },
+      "steps": {
+        "classify": 10.4,
+        "retrieve": 231.0
+      }
+    },
+    {
+      "run_id": "r25",
+      "timestamp": "2026-10-11T07:30:04.642771+00:00",
+      "latency_ms": 235.0,
+      "workload_ms": 234.9,
+      "status": "success",
+      "fingerprint": "d71fa4df99e1",
+      "config": {
+        "source": "SRC-0005"
+      },
+      "steps": {
+        "classify": 10.0,
+        "retrieve": 224.9
+      }
+    },
+    {
+      "run_id": "r26",
+      "timestamp": "2026-10-11T07:30:04.642771+00:00",
+      "latency_ms": 244.9,
+      "workload_ms": 244.8,
+      "status": "success",
+      "fingerprint": "d71fa4df99e1",
+      "config": {
+        "source": "SRC-0005"
+      },
+      "steps": {
+        "classify": 10.6,
+        "retrieve": 234.2
+      }
+    },
+    {
+      "run_id": "r27",
+      "timestamp": "2026-10-11T07:30:04.642771+00:00",
+      "latency_ms": 230.8,
+      "workload_ms": 230.7,
+      "status": "success",
+      "fingerprint": "d71fa4df99e1",
+      "config": {
+        "source": "SRC-0005"
+      },
+      "steps": {
+        "classify": 9.9,
+        "retrieve": 220.8
+      }
+    },
+    {
+      "run_id": "r28",
+      "timestamp": "2026-10-11T07:30:04.642771+00:00",
+      "latency_ms": 246.5,
+      "workload_ms": 246.3,
+      "status": "success",
+      "fingerprint": "d71fa4df99e1",
+      "config": {
+        "source": "SRC-0005"
+      },
+      "steps": {
+        "classify": 9.9,
+        "retrieve": 236.4
+      }
+    },
+    {
+      "run_id": "r29",
+      "timestamp": "2026-10-11T07:30:04.642771+00:00",
+      "latency_ms": 238.2,
+      "workload_ms": 238.2,
+      "status": "success",
+      "fingerprint": "d71fa4df99e1",
+      "config": {
+        "source": "SRC-0005"
+      },
+      "steps": {
+        "classify": 10.2,
+        "retrieve": 228.0
+      }
+    },
+    {
+      "run_id": "r30",
+      "timestamp": "2026-10-11T07:30:04.642771+00:00",
+      "latency_ms": 241.4,
+      "workload_ms": 241.2,
+      "status": "success",
+      "fingerprint": "d71fa4df99e1",
+      "config": {
+        "source": "SRC-0005"
+      },
+      "steps": {
+        "classify": 10.4,
+        "retrieve": 230.8
+      }
+    }
+  ]
+}

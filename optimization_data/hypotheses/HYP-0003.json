@@ -1,0 +1,61 @@
+{
+  "solution_id": "HYP-0003",
+  "feature_id": "Chatbot_retrieval_based",
+  "source_lane": "A",
+  "snapshot_id": "S-0006",
+  "verified_root_cause": {
+    "statement": "Bước 'classify' chiếm 4.2% tổng thời gian p50 (10.1/240.1 ms) trên 30 run đo được (fingerprint d71fa4df99e1); tín hiệu: long_tail",
+    "evidence_log_lines": [
+      "2026-W41-13.json#r1: total=1592.1ms status=success classify=509.5ms",
+      "2026-W41-13.json#r2: total=237.5ms status=success classify=9.5ms",
+      "2026-W41-13.json#r3: total=229.2ms status=success classify=9.1ms"
+    ],
+    "kg_nodes": [],
+    "code_references": []
+  },
+  "proposed_change": "Giảm thời gian của bước 'classify': domain owner chỉ định 1 biến cấu hình duy nhất của bước này (ví dụ giới hạn số vòng lặp/đọc bớt dữ liệu), rồi đo lại so với snapshot S-0006.",
+  "change": {
+    "description": "Giảm thời gian của bước 'classify': domain owner chỉ định 1 biến cấu hình duy nhất của bước này (ví dụ giới hạn số vòng lặp/đọc bớt dữ liệu), rồi đo lại so với snapshot S-0006.",
+    "variables": [
+      "classify"
+    ],
+    "risk_tier": "config",
+    "blast_radius": "classify"
+  },
+  "risk_tier": "config",
+  "blast_radius": "classify",
+  "pros": [
+    "Nếu bước 'classify' về 0 ms thì p50 tổng giảm tới 4.2% (giới hạn lý thuyết)"
+  ],
+  "cons": [
+    "Chưa xác định được biến cấu hình thật: không áp dụng trước khi domain owner xác nhận"
+  ],
+  "pros_cons": [
+    {
+      "criterion": "latency_p50_ms",
+      "pros": "0% đến -4.2% (bằng 0 nếu bước bị loại hoàn toàn)",
+      "cons": "chưa đo được khi chưa đổi biến"
+    },
+    {
+      "criterion": "quality_score",
+      "pros": "không đổi (chưa áp thay đổi)",
+      "cons": "giảm quá sâu có thể mất dữ liệu đầu vào của bước sau"
+    }
+  ],
+  "expected_impact_range": "0% to -4.2%",
+  "effort_estimate": "M",
+  "retest_plan": "Chạy lại benchmark cùng fingerprint, so với S-0006, tối thiểu 30 run, chỉ đổi 1 biến",
+  "remeasure_plan": null,
+  "rollback_plan": "Đưa biến của 'classify' về giá trị hiện tại trong S-0006",
+  "rollback": null,
+  "dependencies": [],
+  "conflicts_with": [],
+  "guardrail_tradeoffs": [],
+  "confidence_score": 0.5,
+  "confidence_level": "low",
+  "is_unverified_hypothesis": true,
+  "over_ceiling": false,
+  "confirmed_solution_id": "SOL-0002",
+  "confirmed_variable": "CONFIDENCE_THR",
+  "confirmed_by": "domain-owner"
+}

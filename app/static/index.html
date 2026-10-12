@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tối ưu Lane A / Lane B</title>
+  <link rel="stylesheet" href="app.css">
+</head>
+<body>
+  <header>
+    <h1>Đưa folder vào → chạy test → chọn lane</h1>
+    <p class="sub">Số đo lấy từ chính folder bạn đưa vào; hệ thống không bịa dữ liệu, không tự đổi cấu hình.</p>
+  </header>
+
+  <main>
+    <!-- ① NGUỒN -->
+    <section id="step-source" class="card">
+      <h2>① Nguồn bài test</h2>
+
+      <div class="row">
+        <input id="pathInput" type="text" placeholder="Dán đường dẫn folder trên máy, ví dụ E:\du_an\app" />
+        <input id="nameInput" type="text" placeholder="Tên (tuỳ chọn)" class="short" />
+        <button id="btnPath" class="primary">Nạp folder theo đường dẫn</button>
+      </div>
+
+      <div class="row">
+        <label class="filebtn">Chọn folder trên máy này
+          <input id="folderInput" type="file" webkitdirectory multiple />
+        </label>
+        <label class="filebtn">Chọn file / zip
+          <input id="fileInput" type="file" multiple />
+        </label>
+      </div>
+
+      <div id="sourceInfo" class="info" hidden></div>
+      <div id="sourceError" class="error" hidden></div>
+    </section>
+
+    <!-- ② CHỌN LANE -->
+    <section id="step-pick" class="card" hidden>
+      <h2>② Chọn lane</h2>
+      <div class="row">
+        <button id="btnPickA" class="big" type="button">Chọn Lane A</button>
+        <button id="btnPickB" class="big" type="button">Chọn Lane B</button>
+      </div>
+      <p class="hint">
+        Lane A: <strong>Brief (Cổng 1)</strong> → baseline (Cổng 2) → bottleneck → hypothesis (chưa xác minh, Cổng 3).<br>
+        Lane B: điều kiện B0 → scan → đề xuất (cần policy được duyệt; thiếu điều kiện thì báo lý do).
+      </p>
+      <p id="pickStatus" class="hint" hidden></p>
+    </section>
+
+    <!-- ③ BRIEF (A1) — chỉ hiện khi chọn Lane A -->
+    <section id="step-brief" class="card" hidden>
+      <h2>③ Brief — phiếu yêu cầu tối ưu (Cổng 1, bắt buộc với Lane A)</h2>
+      <p class="intro">
+        Brief là <strong>phiếu yêu cầu do người chủ nghiệp vụ điền</strong>: nói rõ bạn
+        <strong>muốn cải thiện điều gì</strong>, <strong>điều gì không được phá vỡ</strong>,
+        và <strong>quy tắc nào đang được xác nhận</strong>. Lane A chỉ chạy khi phiếu này
+        đạt Cổng 1 — điền thiếu hệ thống báo <em>ngay từng mục</em>, không tự đoán thay bạn.
+        Bấm <strong>“Điền ví dụ mẫu”</strong> để xem một phiếu điền đầy đủ.
+      </p>
+
+      <div class="row example-bar">
+        <button id="btnBriefExample" type="button">Điền ví dụ mẫu (chatbot RAG)</button>
+        <button id="btnBriefClear" type="button">Xóa form</button>
+        <label for="briefSelect">Hoặc chọn Brief đã lưu:</label>
+        <select id="briefSelect"><option value="">— chọn brief cũ —</option></select>
+      </div>
+
+      <div class="brief-block">
+        <h3>1. Feature cần tối ưu — “nói về đúng một thứ”</h3>
+        <p class="field-hint">
+          Một Brief chỉ nói về <strong>đúng 1 feature</strong> (tên + phiên bản), để số đo và
+          quy tắc không bị trộn lẫn. VD: <code>chatbot_rag_v2</code>, <code>subflow6_v3</code>.
+        </p>
+        <div class="row">
+          <label for="briefFeature">Tên feature</label>
+          <input id="briefFeature" type="text" placeholder="VD: chatbot_rag_v2" />
+        </div>
+      </div>
+
+      <div class="brief-block">
+        <h3>2. Mục tiêu — “tôi muốn cải thiện tới mức nào?”</h3>
+        <p class="field-hint">
+          Mỗi mục tiêu cần đủ 5 thông tin: <strong>chỉ số</strong> ·
+          <strong>đơn vị</strong> · <strong>hướng</strong> (giảm/tăng) ·
+          <strong>mức muốn tới</strong> (con số) · <strong>lấy số từ đâu</strong>
+          (script đo, log, query…). Thiếu con số hoặc nguồn đo → Cổng 1 không cho qua.
+        </p>
+        <div id="objList"></div>
+        <button id="btnAddObjective" type="button" class="small">+ Thêm mục tiêu</button>
+      </div>
+
+      <div class="brief-block">
+        <h3>3. Ràng buộc — “điều gì không được hỏng khi tối ưu?”</h3>
+        <p class="field-hint">
+          Chặn tối ưu tràn lan: VD <code>quality_score</code> không được giảm quá 2%.
+          Tick <strong>hard</strong> = <em>ranh giới đỏ</em>: vượt ngưỡng là dừng ngay,
+          không chấp nhận đánh đổi. Brief cần <strong>ít nhất 1 ràng buộc hard</strong>.
+        </p>
+        <div id="grList"></div>
+        <button id="btnAddGuardrail" type="button" class="small">+ Thêm ràng buộc</button>
+      </div>
+
+      <div class="brief-block">
+        <h3>4. Ngưỡng giữ / hoàn lại — chốt trước khi xem số</h3>
+        <p class="field-hint">
+          Chốt <em>trước</em> khi đo, tránh “ngưỡng hợp lý hóa sau khi thấy kết quả”:
+          cải thiện <strong>≥ mức “giữ”</strong> thì giữ thay đổi;
+          chỉ đạt mức “hoàn lại” thì trả về giá trị cũ.
+          “Giữ” phải <strong>lớn hơn</strong> “hoàn lại”, cả hai &gt; 0.
+        </p>
+        <div class="row">
+          <label>Giữ nếu cải thiện ≥ <input id="thrKeep" type="number" value="25" min="1" class="short" /> %</label>
+          <label>Hoàn lại nếu &lt; <input id="thrRevert" type="number" value="10" min="1" class="short" /> %</label>
+          <label>Bậc rủi ro được phép
+            <select id="briefRisk">
+              <option value="config">config — chỉ đổi cấu hình (an toàn nhất)</option>
+              <option value="prompt">prompt — được sửa prompt</option>
+              <option value="code">code — được sửa code</option>
+            </select>
+          </label>
+        </div>
+      </div>
+
+      <div class="brief-block">
+        <h3>5. Phạm vi &amp; bối cảnh nghiệp vụ</h3>
+        <p class="field-hint">
+          <strong>Scope IN</strong> = phần được đụng tới; <strong>Scope OUT</strong> = cấm đụng
+          (VD: “không đổi model”, “không đổi infra”).
+          <strong>Bối cảnh</strong> giải thích <em>vì sao</em> phải tối ưu — người đọc sau
+          (reviewer, auditor) sẽ dựa vào đoạn này.
+        </p>
+        <div class="row">
+          <label>Scope IN (mỗi dòng 1 mục)
+            <textarea id="scopeIn" rows="2" placeholder="VD:&#10;retrieve (mmr, k=5)&#10;classify (svm)"></textarea>
+          </label>
+          <label>Scope OUT (mỗi dòng 1 mục)
+            <textarea id="scopeOut" rows="2" placeholder="VD:&#10;model selection&#10;infra / hạ tầng"></textarea>
+          </label>
+        </div>
+        <div class="row">
+          <label>Bối cảnh nghiệp vụ
+            <textarea id="bizContext" rows="2" placeholder="VD: Sinh viên phản hồi chatbot chậm khi hỏi học phí; cần p50 &lt; 200ms giờ cao điểm."></textarea>
+          </label>
+        </div>
+      </div>
+
+      <div class="brief-block">
+        <h3>6. Quy tắc nghiệp vụ &amp; xác nhận của chủ quy tắc</h3>
+        <p class="field-hint">
+          <strong>Business Rule Card</strong> là file mô tả quy tắc nghiệp vụ đang hiệu lực
+          (VD: <code>optimization_data/registry/cards/Feature_X_v2.md</code>).
+          Người có thẩm quyền (<em>domain owner</em>) đọc thẻ rồi <strong>tự tick xác nhận</strong> —
+          hệ thống không tick thay, cũng không tự bỏ qua mục này.
+        </p>
+        <div class="row">
+          <label>Đường dẫn Business Rule Card
+            <input id="bizCard" type="text" placeholder="optimization_data/registry/cards/....md" />
+          </label>
+        </div>
+        <div class="row">
+          <label class="filebtn confirm-check">
+            <input id="bizConfirm" type="checkbox" />
+            Tôi (domain owner) đã đọc và xác nhận Business Rule Card ở trên
+          </label>
+        </div>
+      </div>
+
+      <div class="brief-block">
+        <h3>7. Lỗ hổng số liệu (tuỳ chọn) — “chưa có gì, và biết mình thiếu gì”</h3>
+        <p class="field-hint">
+          Liệt kê metric/mẩu log <em>chưa có</em> để reviewer biết kết quả có giới hạn ở đâu.
+          VD: “chưa log độ trễ phía LLM”.
+        </p>
+        <div class="row">
+          <label>Data gaps (mỗi dòng 1 mục)
+            <textarea id="dataGaps" rows="2" placeholder="VD:&#10;chưa log độ trễ phía LLM&#10;chưa có metric theo giờ cao điểm"></textarea>
+          </label>
+        </div>
+      </div>
+
+      <details class="brief-preview">
+        <summary>Xem trước nội dung Brief sẽ lưu (đối chiếu nhanh)</summary>
+        <pre id="briefPreview">(chỉnh sửa phiếu ở trên là cập nhật tại đây)</pre>
+      </details>
+
+      <div class="row">
+        <button id="btnBrief" class="primary">Kiểm tra &amp; lưu Brief (Cổng 1)</button>
+        <span id="briefStatus" class="hint"></span>
+      </div>
+      <div id="briefErrors" class="error" hidden></div>
+    </section>
+
+    <!-- ④ CÁCH LẤY SỐ ĐO -->
+    <section id="step-run" class="card" hidden>
+      <h2>④ Cách lấy số đo</h2>
+
+      <div class="row">
+        <label for="cmdSelect">Cách lấy số đo</label>
+        <select id="cmdSelect"></select>
+      </div>
+
+      <div class="row" id="customRow" hidden>
+        <input id="customCmd" type="text" placeholder='Lệnh trong folder, ví dụ: {python} main.py --n 100' />
+      </div>
+
+      <div class="row">
+        <label for="repeatsInput">Số lần lặp</label>
+        <input id="repeatsInput" type="number" value="5" min="1" max="10000" class="short" />
+        <label for="periodInput">Kỳ (period)</label>
+        <input id="periodInput" type="text" placeholder="tuỳ chọn, ví dụ 2026-W41" class="short" />
+        <label for="timeoutInput">Timeout (giây)</label>
+        <input id="timeoutInput" type="number" value="120" min="1" max="1800" class="short" />
+        <label for="preflightInput">Preflight (giây)</label>
+        <input id="preflightInput" type="number" value="120" min="0" max="600" class="short"
+          title="Chạy thử 1 lần trước N lần đo; fail/không in STEP là dừng ngay (0 = bỏ qua)" />
+      </div>
+
+      <p class="hint">
+        Preflight = <strong>chạy thử 1 lần</strong> với timeout ở trên trước khi đo đủ N lần:
+        script lỗi hoặc không in dòng <code>STEP &lt;tên&gt; &lt;ms&gt;</code> thì <strong>dừng ngay</strong>
+        (không tốn N × timeout). Muốn đo thẳng không thử: nhập 0.
+      </p>
+
+      <div class="row">
+        <label class="filebtn">
+          <input id="selfLoopInput" type="checkbox" />
+          Script tự lặp — 1 lần chạy = N run (mỗi vòng in <code>STEP &lt;tên&gt; &lt;ms&gt;</code> rồi <code>RUN &lt;ms&gt;</code>), bỏ qua ô "Số lần lặp"
+        </label>
+      </div>
+
+      <p class="hint" id="modeHint"></p>
+    </section>
+
+    <!-- ⑤ CHẠY -->
+    <section id="step-lane" class="card" hidden>
+      <h2>⑤ Chạy</h2>
+      <div class="row">
+        <button id="btnRun" class="primary big">Chạy</button>
+        <span id="runLaneBadge" class="hint"></span>
+      </div>
+      <p class="hint">
+        Lane A cần <strong>Brief đã qua Cổng 1</strong>; Lane B cần điều kiện B0 được duyệt.
+        Chưa đủ điều kiện hệ thống báo lý do, không tự chạy.
+      </p>
+    </section>
+
+    <!-- KẾT QUẢ -->
+    <section id="result" class="card" hidden>
+      <h2>Kết quả</h2>
+      <div id="resultBody"></div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

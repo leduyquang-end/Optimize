@@ -1,0 +1,59 @@
+# docker-compose.yml
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: sales_db
+      POSTGRES_USER: sales_user
+      POSTGRES_PASSWORD: sales_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - sales-network
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    networks:
+      - sales-network
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    environment:
+      RABBITMQ_DEFAULT_USER: sales_user
+      RABBITMQ_DEFAULT_PASS: sales_password
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - sales-network
+
+  app:
+    build: .
+    environment:
+      DATABASE_URL: postgresql://sales_user:sales_password@postgres/sales_db
+      REDIS_URL: redis://redis:6379
+      RABBITMQ_URL: amqp://sales_user:sales_password@rabbitmq:5672
+      DEBUG: "False"
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+      - redis
+      - rabbitmq
+    networks:
+      - sales-network
+    volumes:
+      - ./logs:/app/logs
+
+volumes:
+  postgres_data:
+
+networks:
+  sales-network:
+    driver: bridge

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TLU — Trợ lý Tư vấn Sinh viên</title>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&family=Lexend:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+
+<div class="app">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="logo">
+        <div class="logo-icon">🎓</div>
+        <div class="logo-text">
+          <div class="tlu">TLU</div>
+          <div class="sub">Đại học Thủy Lợi</div>
+        </div>
+      </div>
+      <div class="sidebar-tagline">Trợ lý tư vấn sinh viên thông minh — hỗ trợ 24/7</div>
+    </div>
+
+    <div class="sidebar-body">
+      <div class="sidebar-section-title">Câu hỏi thường gặp</div>
+      <button class="quick-btn" onclick="sendQuick('Các hình thức học bổng tại TLU là gì?')">
+        <span class="q-icon">🏆</span>Học bổng có những loại nào?
+      </button>
+      <button class="quick-btn" onclick="sendQuick('Điều kiện xét học bổng khuyến khích học tập là gì?')">
+        <span class="q-icon">📋</span>Điều kiện xét học bổng?
+      </button>
+      <button class="quick-btn" onclick="sendQuick('Quy trình đăng ký học lại như thế nào?')">
+        <span class="q-icon">🔄</span>Đăng ký học lại?
+      </button>
+      <button class="quick-btn" onclick="sendQuick('Điều kiện để được miễn giảm học phí là gì?')">
+        <span class="q-icon">💰</span>Miễn giảm học phí?
+      </button>
+      <button class="quick-btn" onclick="sendQuick('Sinh viên cần đạt điểm rèn luyện bao nhiêu để xếp loại tốt?')">
+        <span class="q-icon">⭐</span>Điểm rèn luyện xếp loại tốt?
+      </button>
+
+      <div class="divider"></div>
+      <div class="sidebar-section-title">Về chatbot</div>
+      <div class="sidebar-note">
+        Trả lời dựa trên tài liệu chính thức của TLU. Hỏi trực tiếp Phòng Đào tạo để xác nhận thông tin quan trọng.
+      </div>
+    </div>
+
+    <div class="sidebar-footer">
+      <button class="clear-btn" onclick="clearChat()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="3 6 5 6 21 6"/>
+          <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
+          <path d="M10 11v6M14 11v6"/>
+          <path d="M9 6V4h6v2"/>
+        </svg>
+        Xóa lịch sử chat
+      </button>
+    </div>
+  </aside>
+
+  <!-- CHAT AREA -->
+  <main class="chat-area">
+    <div class="chat-header">
+      <div class="bot-avatar">🤖</div>
+      <div class="chat-header-info">
+        <div class="chat-header-name">Trợ lý TLU</div>
+        <div class="chat-header-status">
+          <span class="status-dot"></span>Sẵn sàng hỗ trợ
+        </div>
+      </div>
+    </div>
+
+    <div class="messages" id="chat-box">
+      <div class="welcome" id="welcome-msg">
+        <div class="welcome-icon">👋</div>
+        <h2>Xin chào! Mình là Trợ lý TLU</h2>
+        <p>Mình có thể giúp bạn tìm hiểu về học bổng, học phí,<br/>điểm rèn luyện và các quy định của trường.<br/>Hãy đặt câu hỏi nhé!</p>
+      </div>
+    </div>
+
+    <div class="input-area">
+      <div class="input-wrap">
+        <textarea id="user-input" rows="1" placeholder="Nhập câu hỏi của bạn..."></textarea>
+        <button class="send-btn" id="sendBtn" onclick="sendMessage()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="22" y1="2" x2="11" y2="13"/>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+          </svg>
+        </button>
+      </div>
+      <div class="input-hint">Nhấn Enter để gửi • Shift+Enter xuống dòng</div>
+    </div>
+  </main>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

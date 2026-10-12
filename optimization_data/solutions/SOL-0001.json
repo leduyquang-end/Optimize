@@ -1,0 +1,59 @@
+{
+  "solution_id": "SOL-0001",
+  "feature_id": "Chatbot_retrieval_based",
+  "source_lane": "A",
+  "snapshot_id": "S-0005",
+  "verified_root_cause": {
+    "statement": "Bước 'retrieve' chiếm 95.8% tổng thời gian p50 (230.3/240.1 ms) trên 30 run đo được (fingerprint d71fa4df99e1); tín hiệu: share,long_tail; domain owner 'domain-owner' chốt biến cấu hình 'top_k' lúc 2026-10-11T08:04:59Z (A3-V6).",
+    "evidence_log_lines": [
+      "2026-W41-13.json#r1: total=1592.1ms status=success retrieve=1082.6ms",
+      "2026-W41-13.json#r2: total=237.5ms status=success retrieve=228.0ms",
+      "2026-W41-13.json#r3: total=229.2ms status=success retrieve=220.1ms",
+      "domain owner domain-owner: chốt biến 'top_k' cho HYP-0001 lúc 2026-10-11T08:04:59Z"
+    ],
+    "kg_nodes": [],
+    "code_references": []
+  },
+  "proposed_change": "Giảm thời gian của bước 'retrieve': domain owner chỉ định 1 biến cấu hình duy nhất của bước này (ví dụ giới hạn số vòng lặp/đọc bớt dữ liệu), rồi đo lại so với snapshot S-0005.",
+  "change": {
+    "description": "Đổi biến cấu hình 'top_k' của bước 'retrieve' để giảm thời gian bước này; domain owner 'domain-owner' đã chốt lúc 2026-10-11T08:04:59Z.",
+    "variables": [
+      "top_k"
+    ],
+    "risk_tier": "config",
+    "blast_radius": "retrieve"
+  },
+  "risk_tier": "config",
+  "blast_radius": "retrieve",
+  "pros": [
+    "Nếu bước 'retrieve' về 0 ms thì p50 tổng giảm tới 95.8% (giới hạn lý thuyết)"
+  ],
+  "cons": [
+    "Chưa xác định được biến cấu hình thật: không áp dụng trước khi domain owner xác nhận"
+  ],
+  "pros_cons": [
+    {
+      "criterion": "latency_p50_ms",
+      "pros": "0% đến -95.8% (bằng 0 nếu bước bị loại hoàn toàn)",
+      "cons": "chưa đo được khi chưa đổi biến"
+    },
+    {
+      "criterion": "quality_score",
+      "pros": "không đổi (chưa áp thay đổi)",
+      "cons": "giảm quá sâu có thể mất dữ liệu đầu vào của bước sau"
+    }
+  ],
+  "expected_impact_range": "0% to -95.8%",
+  "effort_estimate": "M",
+  "retest_plan": "Chạy lại benchmark cùng fingerprint, so với S-0005, tối thiểu 30 run, chỉ đổi 1 biến",
+  "remeasure_plan": null,
+  "rollback_plan": "Đưa biến của 'retrieve' về giá trị hiện tại trong S-0005",
+  "rollback": null,
+  "dependencies": [],
+  "conflicts_with": [],
+  "guardrail_tradeoffs": [],
+  "confidence_score": 0.5,
+  "confidence_level": "low",
+  "is_unverified_hypothesis": false,
+  "over_ceiling": false
+}
