@@ -182,7 +182,7 @@ class SourceService:
         display = (name or "").strip() or display
         return self._save(source_id, "upload", display, folder)
 
-      def _extract_zip(self, upload: Any, folder: str) -> None:
+          def _extract_zip(self, upload: Any, folder: str) -> None:
         source = getattr(upload, "file", upload)
         source.seek(0)
         data = source.read()
