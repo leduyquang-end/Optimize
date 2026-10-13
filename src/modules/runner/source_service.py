@@ -182,9 +182,11 @@ class SourceService:
         display = (name or "").strip() or display
         return self._save(source_id, "upload", display, folder)
 
-    def _extract_zip(self, upload: Any, folder: str) -> None:
+      def _extract_zip(self, upload: Any, folder: str) -> None:
         source = getattr(upload, "file", upload)
-        with zipfile.ZipFile(source) as archive:
+        source.seek(0)
+        data = source.read()
+        with zipfile.ZipFile(io.BytesIO(data)) as archive:
             infos = [info for info in archive.infolist() if not info.is_dir()]
             if len(infos) > MAX_FILES:
                 raise ValueError(f"Zip chứa quá nhiều file ({len(infos)} > {MAX_FILES}).")
@@ -204,7 +206,6 @@ class SourceService:
                         total += len(chunk)
                         if total > MAX_TOTAL_BYTES:
                             raise ValueError("Zip giải nén vượt giới hạn dung lượng 200 MB.")
-
     # -------------------------------------------------------------- prepare ---
     SERVER_MARKERS = ("app.run(", "uvicorn.run(", "socketio.run(", ".launch(", "gradio.")
     BENCH_HINTS = ("bench", "measure", "profile", "perf", "loadtest")
